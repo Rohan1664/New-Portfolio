@@ -1,116 +1,110 @@
-import { useEffect, useState } from "react";
-import API from "../../services/api";
+import { useContext, useState, useEffect } from "react";
+import { ProfileContext } from "../../context/ProfileContext";
+import { updateProfile } from "../../services/profileService";
 
 export default function ManageProfile() {
-  const [profile, setProfile] = useState({
-    name: "",
-    bio: "",
-    email: "",
-    phone: "",
-    location: ""
-  });
+  const { profile, reload } = useContext(ProfileContext);
 
-  const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState({});
 
   useEffect(() => {
-    API.get("/profile")
-      .then(res => setProfile(res.data || {}))
-      .finally(() => setLoading(false));
-  }, []);
+    if (profile) setForm(profile);
+  }, [profile]);
 
   const save = async () => {
-    try {
-      await API.put("/profile", profile);
-      alert("Profile updated successfully 🚀");
-    } catch (err) {
-      alert("Failed to save profile");
-    }
+    await updateProfile(form);
+    reload();
+    alert("Profile updated 🚀");
   };
 
-  if (loading) {
-    return <p className="p-6 text-gray-500">Loading profile...</p>;
-  }
+  if (!profile) return <p>Loading...</p>;
 
   return (
-    <div className="p-6 max-w-3xl">
+    <div className="grid md:grid-cols-2 gap-6 p-6">
 
-      {/* TITLE */}
-      <h1 className="text-2xl font-bold mb-6">
-        ⚙️ Manage Profile
-      </h1>
+      {/* LEFT - FORM */}
+      <div className="bg-white p-6 rounded-xl shadow space-y-3">
 
-      {/* FORM CARD */}
-      <div className="bg-white shadow rounded-xl p-6 space-y-4">
+        <h1 className="text-xl font-bold mb-4">
+          Edit Profile
+        </h1>
 
-        {/* Name */}
-        <div>
-          <label className="text-sm text-gray-500">Name</label>
-          <input
-            className="w-full border p-2 rounded mt-1"
-            value={profile.name || ""}
-            onChange={(e) =>
-              setProfile({ ...profile, name: e.target.value })
-            }
-          />
-        </div>
+        <input
+          className="border p-2 w-full"
+          value={form.name || ""}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          placeholder="Name"
+        />
 
-        {/* Email */}
-        <div>
-          <label className="text-sm text-gray-500">Email</label>
-          <input
-            className="w-full border p-2 rounded mt-1"
-            value={profile.email || ""}
-            onChange={(e) =>
-              setProfile({ ...profile, email: e.target.value })
-            }
-          />
-        </div>
+        <input
+          className="border p-2 w-full"
+          value={form.title || ""}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          placeholder="Title"
+        />
 
-        {/* Phone */}
-        <div>
-          <label className="text-sm text-gray-500">Phone</label>
-          <input
-            className="w-full border p-2 rounded mt-1"
-            value={profile.phone || ""}
-            onChange={(e) =>
-              setProfile({ ...profile, phone: e.target.value })
-            }
-          />
-        </div>
+        <textarea
+          className="border p-2 w-full h-24"
+          value={form.bio || ""}
+          onChange={(e) => setForm({ ...form, bio: e.target.value })}
+          placeholder="Bio"
+        />
 
-        {/* Location */}
-        <div>
-          <label className="text-sm text-gray-500">Location</label>
-          <input
-            className="w-full border p-2 rounded mt-1"
-            value={profile.location || ""}
-            onChange={(e) =>
-              setProfile({ ...profile, location: e.target.value })
-            }
-          />
-        </div>
+        <input
+          className="border p-2 w-full"
+          value={form.github || ""}
+          onChange={(e) => setForm({ ...form, github: e.target.value })}
+          placeholder="GitHub"
+        />
 
-        {/* Bio */}
-        <div>
-          <label className="text-sm text-gray-500">Bio</label>
-          <textarea
-            className="w-full border p-2 rounded mt-1 h-28"
-            value={profile.bio || ""}
-            onChange={(e) =>
-              setProfile({ ...profile, bio: e.target.value })
-            }
-          />
-        </div>
+        <input
+          className="border p-2 w-full"
+          value={form.linkedin || ""}
+          onChange={(e) => setForm({ ...form, linkedin: e.target.value })}
+          placeholder="LinkedIn"
+        />
 
-        {/* SAVE BUTTON */}
         <button
           onClick={save}
-          className="w-full bg-black text-white p-3 rounded hover:bg-gray-800 transition"
+          className="bg-black text-white w-full py-2 rounded"
         >
           Save Profile
         </button>
-
       </div>
+
+      {/* RIGHT - LIVE PREVIEW */}
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-xl shadow">
+
+        <h2 className="text-lg font-bold mb-4">
+          Live Preview 👁️
+        </h2>
+
+        <div className="space-y-3">
+
+          <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-xl font-bold">
+            {form.name?.charAt(0) || "A"}
+          </div>
+
+          <h1 className="text-2xl font-bold">
+            {form.name || "Your Name"}
+          </h1>
+
+          <p className="text-gray-300">
+            {form.title || "Your Title"}
+          </p>
+
+          <p className="text-gray-400 text-sm">
+            {form.bio || "Your bio will appear here..."}
+          </p>
+
+          <div className="pt-4 text-sm space-y-1">
+            <p>🔗 GitHub: {form.github || "-"}</p>
+            <p>🔗 LinkedIn: {form.linkedin || "-"}</p>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   );
 }
