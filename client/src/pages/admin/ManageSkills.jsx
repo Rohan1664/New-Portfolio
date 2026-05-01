@@ -6,6 +6,17 @@ import {
   deleteSkill
 } from "../../services/skillService";
 
+// ✅ Icons
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  X,
+  Wrench,
+  Check,
+  Loader2
+} from "lucide-react";
+
 export default function ManageSkills() {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +41,7 @@ export default function ManageSkills() {
     load();
   }, []);
 
-  // OPEN CREATE FORM
+  // OPEN FORM
   const openForm = () => {
     setEditingId(null);
     setForm({ name: "", description: "", level: "" });
@@ -79,15 +90,15 @@ export default function ManageSkills() {
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
-          ⚙️ Skills
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+         <Wrench size={22} /> Skills
         </h1>
 
         <button
           onClick={openForm}
-          className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
+          className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
         >
-          + Add Skill
+          <Plus size={16} /> Add Skill
         </button>
       </div>
 
@@ -123,11 +134,13 @@ export default function ManageSkills() {
             }
           />
 
+          {/* ACTION BUTTONS */}
           <button
             onClick={handleSubmit}
-            className="bg-black text-white rounded p-2 hover:bg-gray-800"
+            className="flex items-center justify-center gap-2 bg-black text-white rounded p-2 hover:bg-gray-800"
           >
-            {editingId ? "Update Skill" : "Add Skill"}
+            <Check size={16} />
+            {editingId ? "Update" : "Add"}
           </button>
 
           <button
@@ -136,15 +149,20 @@ export default function ManageSkills() {
               setEditingId(null);
               setForm({ name: "", description: "", level: "" });
             }}
-            className="bg-gray-400 text-white rounded p-2 hover:bg-gray-500"
+            className="flex items-center justify-center gap-2 bg-gray-400 text-white rounded p-2 hover:bg-gray-500"
           >
-            Cancel
+            <X size={16} /> Cancel
           </button>
         </div>
       )}
 
       {/* LOADING */}
-      {loading && <p className="text-gray-500">Loading...</p>}
+      {loading && (
+        <div className="flex items-center gap-2 text-gray-500">
+          <Loader2 className="animate-spin" size={16} />
+          Loading...
+        </div>
+      )}
 
       {/* SKILLS GRID */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -178,20 +196,20 @@ export default function ManageSkills() {
             </p>
 
             {/* ACTIONS */}
-            <div className="flex gap-3 mt-4 text-sm">
+            <div className="flex gap-4 mt-4 text-sm">
 
               <button
                 onClick={() => handleEdit(s)}
-                className="text-blue-500"
+                className="flex items-center gap-1 text-blue-500 hover:underline"
               >
-                Edit
+                <Pencil size={14} /> Edit
               </button>
 
               <button
                 onClick={() => handleDelete(s._id)}
-                className="text-red-500"
+                className="flex items-center gap-1 text-red-500 hover:underline"
               >
-                Delete
+                <Trash2 size={14} /> Delete
               </button>
 
             </div>

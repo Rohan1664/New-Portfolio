@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getMessages } from "../../services/contactService";
 import AdminLayout from "../../layouts/AdminLayout";
+import {
+  Mail,
+} from "lucide-react";
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -17,8 +20,8 @@ export default function Messages() {
     <div className="p-6">
 
       {/* Title */}
-      <h1 className="text-2xl font-bold mb-6">
-        📩 Messages
+      <h1 className="text-2xl font-bold flex items-center gap-2 mb-6">
+        <Mail size={22} /> Messages
       </h1>
 
       {/* Loading */}
@@ -40,10 +43,10 @@ export default function Messages() {
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-2">
-              <h2 className="font-semibold text-gray-800">
+              <h2 className="font-semibold text-xl text-gray-800">
                 {m.name}
               </h2>
-              <span className="text-xs text-gray-400">
+              <span className="text-xl text-gray-900">
                 {m.email}
               </span>
             </div>

@@ -7,11 +7,13 @@ const profileSchema = new mongoose.Schema(
 
     mobile: { type: String },
 
-    occupation: { type: String },
+    occupation: [String],
 
     bio: { type: String },
 
     goal: { type: String },
+
+    about: { type: String },
 
     github: { type: String },
     linkedin: { type: String },

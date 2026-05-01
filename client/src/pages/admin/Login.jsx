@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../services/authService";
 import useAuth from "../../hooks/useAuth";
 
@@ -13,6 +13,10 @@ export default function Login() {
 
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // ✅ where user tried to go
+    const from = location.state?.from?.pathname || "/admin/dashboard";
 
     const submit = async () => {
         if (!form.email || !form.password) {
@@ -26,8 +30,8 @@ export default function Login() {
 
             login(res.data.token);
 
-            // 🔥 redirect to dashboard
-            navigate("/admin/dashboard", { replace: true });
+            // ✅ redirect properly
+            navigate(from, { replace: true });
 
         } catch (err) {
             alert("Invalid credentials");

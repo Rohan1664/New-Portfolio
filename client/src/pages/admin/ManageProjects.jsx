@@ -6,6 +6,22 @@ import {
   deleteProject
 } from "../../services/projectService";
 
+// ✅ Icons
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  X,
+  Folder,
+  Check,
+  Loader2,
+  ExternalLink,
+  Link as LinkIcon,
+  Image as ImageIcon
+} from "lucide-react";
+
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 export default function ManageProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +57,6 @@ export default function ManageProjects() {
       .map((item) => item.trim())
       .filter(Boolean);
 
-  // OPEN FORM FOR CREATE
   const openCreateForm = () => {
     setEditingId(null);
     resetForm();
@@ -120,19 +135,19 @@ export default function ManageProjects() {
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
-          🚀 Manage Projects
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+           <Folder size={22} />Manage Projects
         </h1>
 
         <button
           onClick={openCreateForm}
-          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
         >
-          + Add Project
+          <Plus size={16} /> Add Project
         </button>
       </div>
 
-      {/* FORM (TOGGLE) */}
+      {/* FORM */}
       {showForm && (
         <div className="bg-white p-4 rounded-xl shadow mb-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 
@@ -211,13 +226,14 @@ export default function ManageProjects() {
           {/* ACTION BUTTONS */}
           <button
             onClick={handleSubmit}
-            className={`text-white rounded p-2 transition ${
+            className={`flex items-center justify-center gap-2 text-white rounded p-2 ${
               editingId
                 ? "bg-green-600 hover:bg-green-700"
                 : "bg-black hover:bg-gray-800"
             }`}
           >
-            {editingId ? "Update Project" : "Create Project"}
+            <Check size={16} />
+            {editingId ? "Update" : "Create"}
           </button>
 
           <button
@@ -226,17 +242,22 @@ export default function ManageProjects() {
               setEditingId(null);
               resetForm();
             }}
-            className="bg-gray-400 text-white rounded p-2 hover:bg-gray-500"
+            className="flex items-center justify-center gap-2 bg-gray-400 text-white rounded p-2 hover:bg-gray-500"
           >
-            Close
+            <X size={16} /> Close
           </button>
         </div>
       )}
 
       {/* LOADING */}
-      {loading && <p className="text-gray-500">Loading...</p>}
+      {loading && (
+        <div className="flex items-center gap-2 text-gray-500">
+          <Loader2 className="animate-spin" size={16} />
+          Loading...
+        </div>
+      )}
 
-      {/* PROJECT LIST */}
+      {/* PROJECTS */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 
         {projects.map((p) => (
@@ -254,10 +275,8 @@ export default function ManageProjects() {
               />
             )}
 
-            {/* TITLE */}
             <h2 className="font-bold text-lg">{p.title}</h2>
 
-            {/* DESCRIPTION */}
             <p className="text-sm text-gray-600 mt-1">
               {p.description}
             </p>
@@ -286,39 +305,57 @@ export default function ManageProjects() {
             )}
 
             {/* LINKS */}
-            <div className="flex gap-3 mt-3 text-xs">
+            <div className="flex gap-4 mt-3 text-xs">
+
               {p.github && (
-                <a href={p.github} className="text-blue-500" target="_blank">
-                  GitHub
+                <a
+                  href={p.github}
+                  target="_blank"
+                  className="flex items-center gap-1 text-blue-500"
+                >
+                  <FaGithub size={14} /> GitHub
                 </a>
               )}
+
               {p.website && (
-                <a href={p.website} className="text-green-500" target="_blank">
-                  Live
+                <a
+                  href={p.website}
+                  target="_blank"
+                  className="flex items-center gap-1 text-green-500"
+                >
+                  <ExternalLink size={14} /> Live
                 </a>
               )}
+
               {p.linkedin && (
-                <a href={p.linkedin} className="text-indigo-500" target="_blank">
-                  LinkedIn
+                <a
+                  href={p.linkedin}
+                  target="_blank"
+                  className="flex items-center gap-1 text-indigo-500"
+                >
+                  <FaLinkedin size={14} /> LinkedIn
                 </a>
               )}
+
             </div>
 
             {/* ACTIONS */}
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-3 mt-4">
+
               <button
                 onClick={() => handleEdit(p)}
-                className="bg-blue-500 text-white px-3 py-1 rounded"
+                className="flex items-center gap-1 text-blue-500"
               >
-                Edit
+                <Pencil size={14} /> Edit
               </button>
 
               <button
                 onClick={() => handleDelete(p._id)}
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="flex items-center gap-1 text-red-500"
               >
-                Delete
+                <Trash2 size={14} /> Delete
               </button>
+
             </div>
 
           </div>

@@ -2,108 +2,243 @@ import { useContext, useState, useEffect } from "react";
 import { ProfileContext } from "../../context/ProfileContext";
 import { updateProfile } from "../../services/profileService";
 
+// ✅ Lucide Icons
+import {
+  User,
+  Mail,
+  Phone,
+  Pencil,
+  Eye
+} from "lucide-react";
+
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 export default function ManageProfile() {
   const { profile, reload } = useContext(ProfileContext);
 
   const [form, setForm] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    if (profile) setForm(profile);
+    if (profile) {
+      setForm({
+        ...profile,
+        occupation: Array.isArray(profile.occupation)
+          ? profile.occupation
+          : profile.occupation
+          ? [profile.occupation]
+          : []
+      });
+    }
   }, [profile]);
 
   const save = async () => {
     await updateProfile(form);
     reload();
+    setEditMode(false);
     alert("Profile updated 🚀");
   };
 
-  if (!profile) return <p>Loading...</p>;
+  if (!profile) return <p className="p-6">Loading...</p>;
 
   return (
-    <div className="grid md:grid-cols-2 gap-6 p-6">
+    <div className="p-6">
 
-      {/* LEFT - FORM */}
-      <div className="bg-white p-6 rounded-xl shadow space-y-3">
-
-        <h1 className="text-xl font-bold mb-4">
-          Edit Profile
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+          <User size={20} /> Personal Information
         </h1>
 
-        <input
-          className="border p-2 w-full"
-          value={form.name || ""}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-          placeholder="Name"
-        />
-
-        <input
-          className="border p-2 w-full"
-          value={form.title || ""}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
-          placeholder="Title"
-        />
-
-        <textarea
-          className="border p-2 w-full h-24"
-          value={form.bio || ""}
-          onChange={(e) => setForm({ ...form, bio: e.target.value })}
-          placeholder="Bio"
-        />
-
-        <input
-          className="border p-2 w-full"
-          value={form.github || ""}
-          onChange={(e) => setForm({ ...form, github: e.target.value })}
-          placeholder="GitHub"
-        />
-
-        <input
-          className="border p-2 w-full"
-          value={form.linkedin || ""}
-          onChange={(e) => setForm({ ...form, linkedin: e.target.value })}
-          placeholder="LinkedIn"
-        />
-
         <button
-          onClick={save}
-          className="bg-black text-white w-full py-2 rounded"
+          onClick={() => setEditMode(!editMode)}
+          className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded"
         >
-          Save Profile
+          {editMode ? <Eye size={16} /> : <Pencil size={16} />}
+          {editMode ? "View Mode" : "Edit Mode"}
         </button>
       </div>
 
-      {/* RIGHT - LIVE PREVIEW */}
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-xl shadow">
+      {/* ================= VIEW MODE ================= */}
+      {!editMode && (
+        <div className="bg-white p-6 rounded-xl shadow">
 
-        <h2 className="text-lg font-bold mb-4">
-          Live Preview 👁️
-        </h2>
+          {/* PROFILE HEADER */}
+          <div className="flex flex-col items-center text-center mb-6">
+            <div className="w-20 h-20 bg-green-200 rounded-full flex items-center justify-center text-2xl font-bold">
+              {profile.name?.charAt(0)}
+            </div>
 
-        <div className="space-y-3">
+            <h2 className="text-xl font-bold mt-3">{profile.name}</h2>
 
-          <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-xl font-bold">
-            {form.name?.charAt(0) || "A"}
+            {/* OCCUPATION */}
+            <div className="flex gap-2 mt-2 flex-wrap justify-center">
+              {Array.isArray(profile.occupation) &&
+                profile.occupation.map((o, i) => (
+                  <span
+                    key={i}
+                    className="bg-green-100 px-2 py-1 rounded text-sm"
+                  >
+                    {o}
+                  </span>
+                ))}
+            </div>
           </div>
 
-          <h1 className="text-2xl font-bold">
-            {form.name || "Your Name"}
-          </h1>
+          {/* CONTACT */}
+          <div className="grid md:grid-cols-2 gap-6 text-sm">
 
-          <p className="text-gray-300">
-            {form.title || "Your Title"}
-          </p>
+            <div className="space-y-2">
+              <p className="flex items-center gap-2">
+                <Mail size={16} /> {profile.email}
+              </p>
 
-          <p className="text-gray-400 text-sm">
-            {form.bio || "Your bio will appear here..."}
-          </p>
+              <p className="flex items-center gap-2">
+                <FaGithub size={16} />
+                <a href={profile.github} className="text-blue-500">
+                  GitHub Profile
+                </a>
+              </p>
+            </div>
 
-          <div className="pt-4 text-sm space-y-1">
-            <p>🔗 GitHub: {form.github || "-"}</p>
-            <p>🔗 LinkedIn: {form.linkedin || "-"}</p>
+            <div className="space-y-2">
+              <p className="flex items-center gap-2">
+                <Phone size={16} /> {profile.mobile}
+              </p>
+
+              <p className="flex items-center gap-2">
+                <FaLinkedin size={16} />
+                <a href={profile.linkedin} className="text-blue-500">
+                  LinkedIn Profile
+                </a>
+              </p>
+            </div>
+
+          </div>
+
+          {/* BIO */}
+          <div className="mt-6">
+            <h3 className="font-semibold">Short Bio</h3>
+            <p className="text-gray-600">{profile.bio}</p>
+          </div>
+
+          {/* ABOUT */}
+          <div className="mt-4">
+            <h3 className="font-semibold">About Me</h3>
+            <p className="text-gray-600">{profile.about}</p>
+          </div>
+
+          {/* GOAL */}
+          <div className="mt-4">
+            <h3 className="font-semibold">My Goal</h3>
+            <p className="text-gray-600">{profile.goal}</p>
           </div>
 
         </div>
-      </div>
+      )}
+
+      {/* ================= EDIT MODE ================= */}
+      {editMode && (
+        <div className="bg-white p-6 rounded-xl shadow space-y-4">
+
+          <div className="grid md:grid-cols-2 gap-4">
+
+            <input
+              className="border p-2 rounded"
+              value={form.name || ""}
+              placeholder="Name"
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
+
+            <input
+              className="border p-2 rounded"
+              value={form.occupation?.join(", ") || ""}
+              placeholder="Occupation (comma separated)"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  occupation: e.target.value
+                    .split(",")
+                    .map((i) => i.trim())
+                })
+              }
+            />
+
+            <input
+              className="border p-2 rounded"
+              value={form.email || ""}
+              placeholder="Email"
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
+
+            <input
+              className="border p-2 rounded"
+              value={form.mobile || ""}
+              placeholder="Mobile"
+              onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+            />
+
+            <input
+              className="border p-2 rounded"
+              value={form.github || ""}
+              placeholder="GitHub"
+              onChange={(e) => setForm({ ...form, github: e.target.value })}
+            />
+
+            <input
+              className="border p-2 rounded"
+              value={form.linkedin || ""}
+              placeholder="LinkedIn"
+              onChange={(e) => setForm({ ...form, linkedin: e.target.value })}
+            />
+
+          </div>
+
+          {/* BIO */}
+          <textarea
+            className="border p-2 w-full rounded"
+            rows="3"
+            value={form.bio || ""}
+            placeholder="Short Bio"
+            onChange={(e) => setForm({ ...form, bio: e.target.value })}
+          />
+
+          {/* ABOUT */}
+          <textarea
+            className="border p-2 w-full rounded"
+            rows="4"
+            value={form.about || ""}
+            placeholder="About Me"
+            onChange={(e) => setForm({ ...form, about: e.target.value })}
+          />
+
+          {/* GOAL */}
+          <textarea
+            className="border p-2 w-full rounded"
+            rows="3"
+            value={form.goal || ""}
+            placeholder="Goal"
+            onChange={(e) => setForm({ ...form, goal: e.target.value })}
+          />
+
+          <div className="flex gap-3">
+            <button
+              onClick={save}
+              className="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              Save Changes
+            </button>
+
+            <button
+              onClick={() => setEditMode(false)}
+              className="border px-4 py-2 rounded"
+            >
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      )}
 
     </div>
   );

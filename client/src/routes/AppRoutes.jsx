@@ -13,6 +13,8 @@ import ManageSkills from "../pages/admin/ManageSkills";
 import ManageProfile from "../pages/admin/ManageProfile";
 import Messages from "../pages/admin/Messages";
 
+import NotFound from "../pages/NotFound"; // ✅ ADD THIS
+
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "../layouts/MainLayout";
 import AdminLayout from "../layouts/AdminLayout";
@@ -20,17 +22,18 @@ import AdminLayout from "../layouts/AdminLayout";
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* PUBLIC */}
+
+      {/* ================= PUBLIC ================= */}
       <Route path="/" element={<MainLayout><Home /></MainLayout>} />
       <Route path="/about" element={<MainLayout><About /></MainLayout>} />
       <Route path="/projects" element={<MainLayout><Projects /></MainLayout>} />
       <Route path="/skills" element={<MainLayout><Skills /></MainLayout>} />
       <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
 
-      {/* ✅ LOGIN PAGE */}
+      {/* ================= ADMIN LOGIN ================= */}
       <Route path="/admin" element={<Login />} />
 
-      {/* ✅ DASHBOARD */}
+      {/* ================= PROTECTED ================= */}
       <Route path="/admin/dashboard" element={
         <ProtectedRoute>
           <AdminLayout><Dashboard /></AdminLayout>
@@ -60,6 +63,10 @@ export default function AppRoutes() {
           <AdminLayout><Messages /></AdminLayout>
         </ProtectedRoute>
       } />
+
+      {/* ================= 404 (ALWAYS LAST) ================= */}
+      <Route path="*" element={<NotFound />} />
+
     </Routes>
   );
 }

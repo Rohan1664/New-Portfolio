@@ -13,7 +13,7 @@ export default function Projects() {
   }, []);
 
   return (
-    <section className="bg-gray-950 text-white min-h-screen py-16">
+    <section className="bg-gray-950 text-white min-h-screen pt-24 pb-16 items-center">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* TITLE */}

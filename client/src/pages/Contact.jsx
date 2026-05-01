@@ -2,6 +2,9 @@ import { useState, useContext } from "react";
 import { sendMessage } from "../services/contactService";
 import { ProfileContext } from "../context/ProfileContext";
 
+import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 export default function Contact() {
   const { profile } = useContext(ProfileContext);
 
@@ -14,54 +17,104 @@ export default function Contact() {
   const submit = async () => {
     try {
       await sendMessage(form);
-
       alert("Message sent successfully 🚀");
       setForm({ name: "", email: "", message: "" });
-
     } catch (err) {
       alert("Failed to send message");
     }
   };
 
+  if (!profile) {
+    return <p className="text-white text-center mt-20">Loading...</p>;
+  }
+
   return (
-    <section className="bg-gray-950 text-white min-h-screen py-16">
+    <section className="bg-gray-950 text-white min-h-screen pt-24 pb-16">
+
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10">
 
-        {/* LEFT - PROFILE INFO (DYNAMIC) */}
+        {/* ================= LEFT SIDE ================= */}
         <div className="space-y-6">
 
-          <h1 className="text-3xl font-bold">
-            Get in Touch 📩
-          </h1>
+          {/* HEADER */}
+          <div>
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              <MessageSquare className="text-blue-500" />
+              Get in Touch
+            </h1>
 
-          <p className="text-gray-400">
-            {profile?.bio || "Feel free to reach out for collaborations."}
-          </p>
-
-          <div className="bg-gray-900 p-5 rounded-xl">
-            <h2 className="font-semibold mb-2">📧 Email</h2>
-            <p className="text-gray-400">
-              {profile?.email || "Not set"}
+            <p className="text-gray-400 mt-2">
+              {profile.bio}
             </p>
           </div>
 
-          <div className="bg-gray-900 p-5 rounded-xl">
-            <h2 className="font-semibold mb-2">📱 Phone</h2>
-            <p className="text-gray-400">
-              {profile?.mobile || "Not set"}
-            </p>
-          </div>
+          {/* EMAIL */}
+          {profile.email && (
+            <div className="bg-gray-900 p-5 rounded-xl flex items-center gap-3">
+              <Mail className="text-blue-400" />
+              <div>
+                <h2 className="font-semibold">Email</h2>
+                <p className="text-gray-400 text-sm">
+                  {profile.email}
+                </p>
+              </div>
+            </div>
+          )}
 
-          <div className="bg-gray-900 p-5 rounded-xl">
-            <h2 className="font-semibold mb-2">📍 Location</h2>
-            <p className="text-gray-400">
-              India
-            </p>
+          {/* PHONE */}
+          {profile.mobile && (
+            <div className="bg-gray-900 p-5 rounded-xl flex items-center gap-3">
+              <Phone className="text-green-400" />
+              <div>
+                <h2 className="font-semibold">Phone</h2>
+                <p className="text-gray-400 text-sm">
+                  {profile.mobile}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* LOCATION (optional if you add later in DB) */}
+          {profile.location && (
+            <div className="bg-gray-900 p-5 rounded-xl flex items-center gap-3">
+              <MapPin className="text-red-400" />
+              <div>
+                <h2 className="font-semibold">Location</h2>
+                <p className="text-gray-400 text-sm">
+                  {profile.location}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* SOCIAL LINKS */}
+          <div className="flex gap-5 pt-2">
+
+            {profile.github && (
+              <a
+                href={profile.github}
+                target="_blank"
+                className="text-2xl text-gray-400 hover:text-white transition"
+              >
+                <FaGithub />
+              </a>
+            )}
+
+            {profile.linkedin && (
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                className="text-2xl text-gray-400 hover:text-blue-400 transition"
+              >
+                <FaLinkedin />
+              </a>
+            )}
+
           </div>
 
         </div>
 
-        {/* RIGHT - FORM */}
+        {/* ================= RIGHT SIDE ================= */}
         <div className="bg-gray-900 p-6 rounded-xl shadow-lg">
 
           <h2 className="text-2xl font-semibold mb-6">
