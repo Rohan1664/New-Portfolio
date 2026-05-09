@@ -10,22 +10,29 @@ import profileRoutes from "./routes/profileRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
-connectDB();
 
 const app = express();
 
+/* CONNECT DB */
+connectDB();
+
+/* MIDDLEWARE */
 app.use(cors());
 app.use(express.json());
 
+/* ROUTES */
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/contact", contactRoutes);
 
+/* TEST ROUTE */
 app.get("/", (req, res) => {
   res.send("API Running...");
 });
 
-const PORT = process.env.PORT ;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+/* IMPORTANT FOR VERCEL */
+export default app;
