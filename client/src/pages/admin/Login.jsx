@@ -4,79 +4,96 @@ import { loginUser } from "../../services/authService";
 import useAuth from "../../hooks/useAuth";
 
 export default function Login() {
-    const [form, setForm] = useState({
-        email: "",
-        password: ""
-    });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const { login } = useAuth();
-    const navigate = useNavigate();
-    const location = useLocation();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    // ✅ where user tried to go
-    const from = location.state?.from?.pathname || "/admin/dashboard";
+  // ✅ where user tried to go
+  const from = location.state?.from?.pathname || "/admin/dashboard";
 
-    const submit = async () => {
-        if (!form.email || !form.password) {
-            return alert("Please fill all fields");
-        }
+  const submit = async () => {
+    if (!form.email || !form.password) {
+      return alert("Please fill all fields");
+    }
 
-        try {
-            setLoading(true);
+    try {
+      setLoading(true);
 
-            const res = await loginUser(form);
+      const res = await loginUser(form);
 
-            login(res.data.token);
+      login(res.data.token);
 
-            // ✅ redirect properly
-            navigate(from, { replace: true });
+      // ✅ redirect properly
+      navigate(from, { replace: true });
 
-        } catch (err) {
-            alert("Invalid credentials");
-        } finally {
-            setLoading(false);
-        }
-    };
+    } catch (err) {
+      alert("Invalid credentials");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-6">
 
-            <div className="bg-white p-6 rounded-xl shadow-md w-80">
+      {/* LOGIN CARD */}
+      <div className="bg-white w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg">
 
-                <h2 className="text-xl font-bold mb-4 text-center">
-                    Admin Login 🔐
-                </h2>
+        {/* TITLE */}
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center">
+          Admin Login 🔐
+        </h2>
 
-                <input
-                    className="w-full border p-2 mb-3 rounded"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={e =>
-                        setForm({ ...form, email: e.target.value })
-                    }
-                />
+        <p className="text-sm sm:text-base text-gray-500 text-center mb-6">
+          Sign in to access your dashboard
+        </p>
 
-                <input
-                    type="password"
-                    className="w-full border p-2 mb-3 rounded"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={e =>
-                        setForm({ ...form, password: e.target.value })
-                    }
-                />
+        {/* EMAIL */}
+        <input
+          type="email"
+          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              email: e.target.value,
+            })
+          }
+        />
 
-                <button
-                    onClick={submit}
-                    disabled={loading}
-                    className="w-full bg-black text-white p-2 rounded hover:bg-gray-800 transition"
-                >
-                    {loading ? "Logging in..." : "Login"}
-                </button>
+        {/* PASSWORD */}
+        <input
+          type="password"
+          className="w-full border border-gray-300 p-3 mb-5 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              password: e.target.value,
+            })
+          }
+        />
 
-            </div>
-        </div>
-    );
+        {/* BUTTON */}
+        <button
+          onClick={submit}
+          disabled={loading}
+          className="w-full bg-black text-white py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-gray-800 active:scale-[0.98] transition disabled:opacity-60"
+        >
+          {loading ? "Logging in..." : "Login"}
+        </button>
+
+      </div>
+
+    </div>
+  );
 }

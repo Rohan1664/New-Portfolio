@@ -16,8 +16,6 @@ import {
   Check,
   Loader2,
   ExternalLink,
-  Link as LinkIcon,
-  Image as ImageIcon
 } from "lucide-react";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -42,6 +40,7 @@ export default function ManageProjects() {
 
   const load = () => {
     setLoading(true);
+
     getProjects()
       .then((res) => setProjects(res.data))
       .finally(() => setLoading(false));
@@ -90,6 +89,7 @@ export default function ManageProjects() {
       setShowForm(false);
       resetForm();
       load();
+
     } catch (err) {
       console.error(err);
       alert("Something went wrong");
@@ -131,139 +131,174 @@ export default function ManageProjects() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
 
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+
         <h1 className="text-2xl font-bold flex items-center gap-2">
-           <Folder size={22} />Manage Projects
+          <Folder size={22} />
+          Manage Projects
         </h1>
 
         <button
           onClick={openCreateForm}
-          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-black text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition"
         >
-          <Plus size={16} /> Add Project
+          <Plus size={16} />
+          Add Project
         </button>
+
       </div>
 
       {/* FORM */}
       {showForm && (
-        <div className="bg-white p-4 rounded-xl shadow mb-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow mb-6">
 
-          <input
-            className="border p-2 rounded"
-            placeholder="Project Title"
-            value={form.title}
-            onChange={(e) =>
-              setForm({ ...form, title: e.target.value })
-            }
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-          <input
-            className="border p-2 rounded"
-            placeholder="Description"
-            value={form.description}
-            onChange={(e) =>
-              setForm({ ...form, description: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="Project Title"
+              value={form.title}
+              onChange={(e) =>
+                setForm({ ...form, title: e.target.value })
+              }
+            />
 
-          <input
-            className="border p-2 rounded"
-            placeholder="Features (comma separated)"
-            value={form.features}
-            onChange={(e) =>
-              setForm({ ...form, features: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="Description"
+              value={form.description}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  description: e.target.value
+                })
+              }
+            />
 
-          <input
-            className="border p-2 rounded"
-            placeholder="Tech Stack"
-            value={form.techStack}
-            onChange={(e) =>
-              setForm({ ...form, techStack: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="Features (comma separated)"
+              value={form.features}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  features: e.target.value
+                })
+              }
+            />
 
-          <input
-            className="border p-2 rounded"
-            placeholder="GitHub URL"
-            value={form.github}
-            onChange={(e) =>
-              setForm({ ...form, github: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="Tech Stack"
+              value={form.techStack}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  techStack: e.target.value
+                })
+              }
+            />
 
-          <input
-            className="border p-2 rounded"
-            placeholder="Website URL"
-            value={form.website}
-            onChange={(e) =>
-              setForm({ ...form, website: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="GitHub URL"
+              value={form.github}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  github: e.target.value
+                })
+              }
+            />
 
-          <input
-            className="border p-2 rounded"
-            placeholder="LinkedIn URL"
-            value={form.linkedin}
-            onChange={(e) =>
-              setForm({ ...form, linkedin: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="Website URL"
+              value={form.website}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  website: e.target.value
+                })
+              }
+            />
 
-          <input
-            className="border p-2 rounded"
-            placeholder="Image URL"
-            value={form.image}
-            onChange={(e) =>
-              setForm({ ...form, image: e.target.value })
-            }
-          />
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="LinkedIn URL"
+              value={form.linkedin}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  linkedin: e.target.value
+                })
+              }
+            />
+
+            <input
+              className="border p-3 rounded-lg w-full"
+              placeholder="Image URL"
+              value={form.image}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  image: e.target.value
+                })
+              }
+            />
+
+          </div>
 
           {/* ACTION BUTTONS */}
-          <button
-            onClick={handleSubmit}
-            className={`flex items-center justify-center gap-2 text-white rounded p-2 ${
-              editingId
-                ? "bg-green-600 hover:bg-green-700"
-                : "bg-black hover:bg-gray-800"
-            }`}
-          >
-            <Check size={16} />
-            {editingId ? "Update" : "Create"}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 mt-5">
 
-          <button
-            onClick={() => {
-              setShowForm(false);
-              setEditingId(null);
-              resetForm();
-            }}
-            className="flex items-center justify-center gap-2 bg-gray-400 text-white rounded p-2 hover:bg-gray-500"
-          >
-            <X size={16} /> Close
-          </button>
+            <button
+              onClick={handleSubmit}
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 text-white rounded-lg px-5 py-3 transition ${
+                editingId
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-black hover:bg-gray-800"
+              }`}
+            >
+              <Check size={16} />
+              {editingId ? "Update" : "Create"}
+            </button>
+
+            <button
+              onClick={() => {
+                setShowForm(false);
+                setEditingId(null);
+                resetForm();
+              }}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-400 text-white rounded-lg px-5 py-3 hover:bg-gray-500 transition"
+            >
+              <X size={16} />
+              Close
+            </button>
+
+          </div>
+
         </div>
       )}
 
       {/* LOADING */}
       {loading && (
-        <div className="flex items-center gap-2 text-gray-500">
+        <div className="flex items-center gap-2 text-gray-500 mb-4">
           <Loader2 className="animate-spin" size={16} />
           Loading...
         </div>
       )}
 
       {/* PROJECTS */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
 
         {projects.map((p) => (
           <div
             key={p._id}
-            className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+            className="bg-white p-4 rounded-2xl shadow hover:shadow-lg transition"
           >
 
             {/* IMAGE */}
@@ -271,23 +306,27 @@ export default function ManageProjects() {
               <img
                 src={p.image}
                 alt={p.title}
-                className="w-full h-40 object-cover rounded-lg mb-3"
+                className="w-full h-48 object-cover rounded-xl mb-4"
               />
             )}
 
-            <h2 className="font-bold text-lg">{p.title}</h2>
+            {/* TITLE */}
+            <h2 className="font-bold text-lg break-words">
+              {p.title}
+            </h2>
 
-            <p className="text-sm text-gray-600 mt-1">
+            {/* DESCRIPTION */}
+            <p className="text-sm text-gray-600 mt-2 break-words">
               {p.description}
             </p>
 
             {/* TECH STACK */}
             {p.techStack?.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-2">
+              <div className="flex flex-wrap gap-2 mt-3">
                 {p.techStack.map((t, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-gray-200 px-2 py-1 rounded"
+                    className="text-xs bg-gray-200 px-2 py-1 rounded-full"
                   >
                     {t}
                   </span>
@@ -297,23 +336,27 @@ export default function ManageProjects() {
 
             {/* FEATURES */}
             {p.features?.length > 0 && (
-              <ul className="text-xs text-gray-600 mt-2 list-disc pl-4">
+              <ul className="text-xs text-gray-600 mt-3 list-disc pl-5 space-y-1">
                 {p.features.map((f, i) => (
-                  <li key={i}>{f}</li>
+                  <li key={i} className="break-words">
+                    {f}
+                  </li>
                 ))}
               </ul>
             )}
 
             {/* LINKS */}
-            <div className="flex gap-4 mt-3 text-xs">
+            <div className="flex flex-wrap gap-4 mt-4 text-sm">
 
               {p.github && (
                 <a
                   href={p.github}
                   target="_blank"
-                  className="flex items-center gap-1 text-blue-500"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 text-blue-500 hover:underline"
                 >
-                  <FaGithub size={14} /> GitHub
+                  <FaGithub size={15} />
+                  GitHub
                 </a>
               )}
 
@@ -321,9 +364,11 @@ export default function ManageProjects() {
                 <a
                   href={p.website}
                   target="_blank"
-                  className="flex items-center gap-1 text-green-500"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 text-green-500 hover:underline"
                 >
-                  <ExternalLink size={14} /> Live
+                  <ExternalLink size={15} />
+                  Live
                 </a>
               )}
 
@@ -331,29 +376,33 @@ export default function ManageProjects() {
                 <a
                   href={p.linkedin}
                   target="_blank"
-                  className="flex items-center gap-1 text-indigo-500"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 text-indigo-500 hover:underline"
                 >
-                  <FaLinkedin size={14} /> LinkedIn
+                  <FaLinkedin size={15} />
+                  LinkedIn
                 </a>
               )}
 
             </div>
 
             {/* ACTIONS */}
-            <div className="flex gap-3 mt-4">
+            <div className="flex flex-col sm:flex-row gap-3 mt-5">
 
               <button
                 onClick={() => handleEdit(p)}
-                className="flex items-center gap-1 text-blue-500"
+                className="flex items-center justify-center gap-2 text-blue-500 border border-blue-200 rounded-lg px-4 py-2 hover:bg-blue-50 transition"
               >
-                <Pencil size={14} /> Edit
+                <Pencil size={15} />
+                Edit
               </button>
 
               <button
                 onClick={() => handleDelete(p._id)}
-                className="flex items-center gap-1 text-red-500"
+                className="flex items-center justify-center gap-2 text-red-500 border border-red-200 rounded-lg px-4 py-2 hover:bg-red-50 transition"
               >
-                <Trash2 size={14} /> Delete
+                <Trash2 size={15} />
+                Delete
               </button>
 
             </div>
@@ -362,6 +411,7 @@ export default function ManageProjects() {
         ))}
 
       </div>
+
     </div>
   );
 }

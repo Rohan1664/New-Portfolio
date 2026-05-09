@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { getProjects } from "../services/projectService";
 import ProjectCard from "../components/ProjectCard";
 
+import {
+  FolderGit2,
+  Loader2
+} from "lucide-react";
+
 export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,36 +18,83 @@ export default function Projects() {
   }, []);
 
   return (
-    <section className="bg-gray-950 text-white min-h-screen pt-24 pb-16 items-center">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="bg-gray-950 text-white min-h-screen pt-20 sm:pt-24 pb-12 sm:pb-16">
 
-        {/* TITLE */}
-        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-center">
-          My Projects 🚀
-        </h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* LOADING */}
-        {loading && (
-          <p className="text-center text-gray-400">
-            Loading projects...
+        {/* ================= HEADER ================= */}
+        <div className="text-center mb-10 sm:mb-14">
+
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+              <FolderGit2
+                size={32}
+                className="text-blue-500"
+              />
+            </div>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+            My Projects 🚀
+          </h1>
+
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed px-2">
+            Here are some of the projects I’ve built using
+            modern technologies like React, Node.js,
+            MongoDB, and more.
           </p>
-        )}
 
-        {/* EMPTY STATE */}
-        {!loading && projects.length === 0 && (
-          <p className="text-center text-gray-400">
-            No projects found.
-          </p>
-        )}
-
-        {/* GRID */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
-            <ProjectCard key={p._id} project={p} />
-          ))}
         </div>
 
+        {/* ================= LOADING ================= */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+
+            <Loader2
+              size={34}
+              className="animate-spin mb-4"
+            />
+
+            <p className="text-sm sm:text-base">
+              Loading projects...
+            </p>
+
+          </div>
+        )}
+
+        {/* ================= EMPTY ================= */}
+        {!loading && projects.length === 0 && (
+          <div className="bg-gray-900 rounded-2xl p-8 text-center text-gray-400">
+
+            <h2 className="text-xl font-semibold mb-2">
+              No Projects Found
+            </h2>
+
+            <p className="text-sm sm:text-base">
+              Projects will appear here once added.
+            </p>
+
+          </div>
+        )}
+
+        {/* ================= PROJECT GRID ================= */}
+        {!loading && projects.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
+
+            {projects.map((p) => (
+              <div
+                key={p._id}
+                className="h-full"
+              >
+                <ProjectCard project={p} />
+              </div>
+            ))}
+
+          </div>
+        )}
+
       </div>
+
     </section>
   );
 }

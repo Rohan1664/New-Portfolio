@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getMessages } from "../../services/contactService";
-import AdminLayout from "../../layouts/AdminLayout";
+
 import {
   Mail,
+  Loader2
 } from "lucide-react";
 
 export default function Messages() {
@@ -11,55 +12,78 @@ export default function Messages() {
 
   useEffect(() => {
     getMessages()
-      .then(res => setMessages(res.data))
+      .then((res) => setMessages(res.data))
       .finally(() => setLoading(false));
   }, []);
 
   return (
+    <div className="p-4 sm:p-6">
 
-    <div className="p-6">
+      {/* TITLE */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
 
-      {/* Title */}
-      <h1 className="text-2xl font-bold flex items-center gap-2 mb-6">
-        <Mail size={22} /> Messages
-      </h1>
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+          <Mail size={22} />
+          Messages
+        </h1>
 
-      {/* Loading */}
+        <span className="text-sm text-gray-500">
+          Total Messages: {messages.length}
+        </span>
+
+      </div>
+
+      {/* LOADING */}
       {loading && (
-        <p className="text-gray-500">Loading messages...</p>
+        <div className="flex items-center gap-2 text-gray-500">
+          <Loader2 className="animate-spin" size={18} />
+          Loading messages...
+        </div>
       )}
 
-      {/* Empty */}
+      {/* EMPTY */}
       {!loading && messages.length === 0 && (
-        <p className="text-gray-500">No messages yet.</p>
+        <div className="bg-white p-6 rounded-2xl shadow text-center text-gray-500">
+          No messages yet.
+        </div>
       )}
 
-      {/* Messages List */}
+      {/* MESSAGES LIST */}
       <div className="space-y-4">
+
         {messages.map((m) => (
           <div
             key={m._id}
-            className="bg-white p-4 rounded-xl shadow hover:shadow-md transition border"
+            className="bg-white p-4 sm:p-5 rounded-2xl shadow border hover:shadow-md transition"
           >
-            {/* Header */}
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="font-semibold text-xl text-gray-800">
-                {m.name}
-              </h2>
-              <span className="text-xl text-gray-900">
-                {m.email}
-              </span>
+
+            {/* HEADER */}
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+
+              <div>
+                <h2 className="font-semibold text-lg sm:text-xl text-gray-800 break-words">
+                  {m.name}
+                </h2>
+
+                <p className="text-sm sm:text-base text-blue-600 break-all">
+                  {m.email}
+                </p>
+              </div>
+
             </div>
 
-            {/* Message */}
-            <p className="text-gray-600">
-              {m.message}
-            </p>
+            {/* MESSAGE */}
+            <div className="bg-gray-50 rounded-xl p-3 sm:p-4">
+              <p className="text-gray-700 text-sm sm:text-base leading-relaxed break-words whitespace-pre-line">
+                {m.message}
+              </p>
+            </div>
+
           </div>
         ))}
+
       </div>
 
     </div>
-
   );
 }
