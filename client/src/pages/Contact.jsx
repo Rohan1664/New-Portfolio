@@ -9,7 +9,7 @@ import {
   MessageSquare
 } from "lucide-react";
 
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+  import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Contact() {
   const { profile } = useContext(ProfileContext);
@@ -56,7 +56,7 @@ export default function Contact() {
   }
 
   return (
-    <section className="bg-gray-950 text-white min-h-screen pt-20 sm:pt-24 pb-12 sm:pb-16">
+    <section className="bg-gray-950 text-white min-h-screen pt-20 sm:pt-24 pb-20 sm:pb-16">
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
 
