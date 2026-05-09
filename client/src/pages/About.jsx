@@ -44,7 +44,19 @@ export default function About() {
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
 
           <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold shrink-0">
-            {profile.name?.charAt(0)}
+            <div className="relative">
+
+              {/* GLOW EFFECT */}
+              <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
+
+              {/* PROFILE IMAGE */}
+              <img
+                src="../Rohanfasate.avif"
+                alt="Profile"
+                className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl "
+              />
+
+            </div>
           </div>
 
           <div>
