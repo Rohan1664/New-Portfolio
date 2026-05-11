@@ -1,10 +1,12 @@
 import API from "./api";
 
 // GET
-export const getProjects = () => API.get("/projects");
+export const getProjects = () =>
+  API.get("/projects");
 
 // CREATE
-export const createProject = (data) => API.post("/projects", data);
+export const createProject = (data) =>
+  API.post("/projects", data);
 
 // UPDATE
 export const updateProject = (id, data) =>

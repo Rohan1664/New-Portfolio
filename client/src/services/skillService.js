@@ -1,6 +1,13 @@
 import API from "./api";
 
-export const getSkills = () => API.get("/skills");
-export const createSkill = (data) => API.post("/skills", data);
-export const updateSkill = (id, data) => API.put(`/skills/${id}`, data);
-export const deleteSkill = (id) => API.delete(`/skills/${id}`);
+export const getSkills = () =>
+  API.get("/skills");
+
+export const createSkill = (data) =>
+  API.post("/skills", data);
+
+export const updateSkill = (id, data) =>
+  API.put(`/skills/${id}`, data);
+
+export const deleteSkill = (id) =>
+  API.delete(`/skills/${id}`);
