@@ -8,10 +8,12 @@ import {
   User,
   FolderKanban,
   Code2,
-  Mail
+  Mail,
+  FileText
 } from "lucide-react";
 
 export default function Navbar() {
+
   const location = useLocation();
 
   const { profile } = useContext(ProfileContext);
@@ -41,13 +43,19 @@ export default function Navbar() {
       path: "/contact",
       label: "Contact",
       icon: <Mail size={20} />
+    },
+    {
+      path: "/Rohan_Fsate_CV.pdf",
+      label: "Hire Me",
+      icon: <FileText size={20} />
     }
   ];
 
   const desktopLinkStyle = (path) =>
-    `px-4 py-2 rounded-lg transition ${location.pathname === path
-      ? "bg-gray-800 text-white font-semibold"
-      : "text-gray-400 hover:text-white hover:bg-gray-800"
+    `px-4 py-2 rounded-lg transition ${
+      location.pathname === path
+        ? "bg-gray-800 text-white font-semibold"
+        : "text-gray-400 hover:text-white hover:bg-gray-800"
     }`;
 
   return (
@@ -68,19 +76,21 @@ export default function Navbar() {
           {/* LINKS */}
           <div className="flex items-center gap-2">
 
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={desktopLinkStyle(item.path)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems
+              .filter((item) => !item.path.endsWith(".pdf"))
+              .map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={desktopLinkStyle(item.path)}
+                >
+                  {item.label}
+                </Link>
+              ))}
 
           </div>
 
-          {/* CTA */}
+          {/* CTA BUTTON */}
           <a
             href="/Rohan_Fsate_CV.pdf"
             target="_blank"
@@ -113,23 +123,41 @@ export default function Navbar() {
       {/* ================= MOBILE BOTTOM NAVBAR ================= */}
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur-xl border-t border-gray-800 z-50">
 
-        <div className="grid grid-cols-5 h-16">
+        <div className="grid grid-cols-6 h-16">
 
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
 
-            return (
+            const isActive = location.pathname === item.path;
+            const isPdf = item.path.endsWith(".pdf");
+
+            return isPdf ? (
+              <a
+                key={item.path}
+                href={item.path}
+                target="_blank"
+                rel="noreferrer"
+                className="flex flex-col items-center justify-center text-xs transition text-gray-400 hover:text-white"
+              >
+                <div className="mb-1 transition">
+                  {item.icon}
+                </div>
+
+                <span>{item.label}</span>
+              </a>
+            ) : (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center text-xs transition ${isActive
-                  ? "text-blue-500"
-                  : "text-gray-400 hover:text-white"
-                  }`}
+                className={`flex flex-col items-center justify-center text-xs transition ${
+                  isActive
+                    ? "text-blue-500"
+                    : "text-gray-400 hover:text-white"
+                }`}
               >
                 <div
-                  className={`mb-1 ${isActive ? "scale-110" : ""
-                    } transition`}
+                  className={`mb-1 ${
+                    isActive ? "scale-110" : ""
+                  } transition`}
                 >
                   {item.icon}
                 </div>
