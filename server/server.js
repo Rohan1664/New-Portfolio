@@ -11,25 +11,40 @@ import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
 
-/* CONNECT DATABASE */
-connectDB();
-
 const app = express();
 
-/* MIDDLEWARE */
-app.use(cors());
+// DB Connection
+connectDB();
+
+// Middleware
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "*",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-/* ROUTES */
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/contact", contactRoutes);
 
-/* TEST ROUTE */
+// Test Route
 app.get("/", (req, res) => {
   res.send("API Running...");
 });
+
+// LOCAL DEVELOPMENT ONLY
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 export default app;
