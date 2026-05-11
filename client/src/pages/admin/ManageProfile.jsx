@@ -13,12 +13,15 @@ import {
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function ManageProfile() {
+
   const { profile, reload } = useContext(ProfileContext);
 
   const [form, setForm] = useState({});
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
+
+    // EXISTING PROFILE
     if (profile) {
       setForm({
         ...profile,
@@ -27,24 +30,77 @@ export default function ManageProfile() {
           : profile.occupation || ""
       });
     }
+
   }, [profile]);
 
   const save = async () => {
     try {
+
       await updateProfile(form);
 
-      reload();
+      await reload();
+
       setEditMode(false);
 
-      alert("Profile updated 🚀");
+      alert("Profile saved successfully 🚀");
+
     } catch (err) {
+
       console.error(err);
-      alert("Failed to update profile");
+
+      alert("Failed to save profile");
     }
   };
 
-  if (!profile) {
-    return <p className="p-4 sm:p-6">Loading...</p>;
+  // ================= LOADING =================
+  if (profile === undefined) {
+    return (
+      <p className="p-4 sm:p-6">
+        Loading...
+      </p>
+    );
+  }
+
+  // ================= NO PROFILE FOUND =================
+  if (profile === null && !editMode) {
+    return (
+      <div className="p-4 sm:p-6">
+
+        <div className="bg-white rounded-2xl shadow p-6">
+
+          <h2 className="text-2xl font-bold mb-3">
+            No Profile Found
+          </h2>
+
+          <p className="text-gray-600 mb-5">
+            Create your first portfolio profile.
+          </p>
+
+          <button
+            onClick={() => {
+              setEditMode(true);
+
+              setForm({
+                name: "",
+                occupation: "",
+                email: "",
+                mobile: "",
+                github: "",
+                linkedin: "",
+                bio: "",
+                about: "",
+                goal: "",
+              });
+            }}
+            className="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-lg transition"
+          >
+            Create Profile
+          </button>
+
+        </div>
+
+      </div>
+    );
   }
 
   return (
@@ -69,7 +125,7 @@ export default function ManageProfile() {
       </div>
 
       {/* ================= VIEW MODE ================= */}
-      {!editMode && (
+      {!editMode && profile && (
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow">
 
           {/* PROFILE HEADER */}
