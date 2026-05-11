@@ -82,7 +82,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <a
-            href="/Rohan_Fasate_CV.pdf"
+            href="/Rohan_Fsate_CV.pdf"
             target="_blank"
             rel="noreferrer"
             className="bg-white text-black px-5 py-2 rounded-xl font-medium hover:bg-gray-200 transition"
