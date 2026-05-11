@@ -4,4 +4,4 @@ export const sendMessage = (data) =>
   API.post("/contact", data);
 
 export const getMessages = () =>
-  API.get("/contact");
+  API.get("/contact");  

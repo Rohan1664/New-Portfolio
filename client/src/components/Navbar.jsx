@@ -45,10 +45,9 @@ export default function Navbar() {
   ];
 
   const desktopLinkStyle = (path) =>
-    `px-4 py-2 rounded-lg transition ${
-      location.pathname === path
-        ? "bg-gray-800 text-white font-semibold"
-        : "text-gray-400 hover:text-white hover:bg-gray-800"
+    `px-4 py-2 rounded-lg transition ${location.pathname === path
+      ? "bg-gray-800 text-white font-semibold"
+      : "text-gray-400 hover:text-white hover:bg-gray-800"
     }`;
 
   return (
@@ -82,12 +81,14 @@ export default function Navbar() {
           </div>
 
           {/* CTA */}
-          <Link
-            to="/contact"
+          <a
+            href="/Rohan_Fasate_CV.pdf"
+            target="_blank"
+            rel="noreferrer"
             className="bg-white text-black px-5 py-2 rounded-xl font-medium hover:bg-gray-200 transition"
           >
             Hire Me
-          </Link>
+          </a>
 
         </div>
 
@@ -121,16 +122,14 @@ export default function Navbar() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center text-xs transition ${
-                  isActive
-                    ? "text-blue-500"
-                    : "text-gray-400 hover:text-white"
-                }`}
+                className={`flex flex-col items-center justify-center text-xs transition ${isActive
+                  ? "text-blue-500"
+                  : "text-gray-400 hover:text-white"
+                  }`}
               >
                 <div
-                  className={`mb-1 ${
-                    isActive ? "scale-110" : ""
-                  } transition`}
+                  className={`mb-1 ${isActive ? "scale-110" : ""
+                    } transition`}
                 >
                   {item.icon}
                 </div>
