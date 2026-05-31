@@ -59,7 +59,7 @@ export default function Home() {
 
         <meta
           property="og:image"
-          content="https://rohan.nishantp.me/og-image.jpg"
+          content="https://rohan.nishantp.me/og-image.avif"
         />
 
         <meta
@@ -93,7 +93,7 @@ export default function Home() {
 
         <meta
           name="twitter:image"
-          content="https://rohan.nishantp.me/og-image.jpg"
+          content="https://rohan.nishantp.me/og-image.avif "
         />
 
         {/* Structured Data */}
