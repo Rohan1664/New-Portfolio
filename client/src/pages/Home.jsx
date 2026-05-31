@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
+import { Helmet } from "react-helmet-async";
 import { ProfileContext } from "../context/ProfileContext";
 
 export default function Home() {
@@ -7,9 +8,113 @@ export default function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>
+          {profile?.name
+            ? `${profile.name} | Full Stack MERN Developer`
+            : "Rohan Fasate | Full Stack MERN Developer"}
+        </title>
+
+        <meta
+          name="description"
+          content={
+            profile?.bio ||
+            "Rohan Fasate is a Full Stack MERN Developer specializing in React.js, Node.js, Express.js, MongoDB and scalable web applications."
+          }
+        />
+
+        <meta
+          name="keywords"
+          content="Rohan Fasate, Full Stack Developer, MERN Developer, React Developer, Node.js Developer, MongoDB Developer, Portfolio"
+        />
+
+        <meta
+          name="author"
+          content={profile?.name || "Rohan Fasate"}
+        />
+
+        <meta
+          name="robots"
+          content="index, follow"
+        />
+
+        <link
+          rel="canonical"
+          href="https://rohan.nishantp.me"
+        />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content={`${profile?.name || "Rohan Fasate"} | Full Stack MERN Developer`}
+        />
+
+        <meta
+          property="og:description"
+          content={
+            profile?.bio ||
+            "Building scalable web applications using React, Node.js and MongoDB."
+          }
+        />
+
+        <meta
+          property="og:image"
+          content="https://rohan.nishantp.me/og-image.jpg"
+        />
+
+        <meta
+          property="og:url"
+          content="https://rohan.nishantp.me"
+        />
+
+        <meta
+          property="og:type"
+          content="website"
+        />
+
+        {/* Twitter */}
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
+
+        <meta
+          name="twitter:title"
+          content={`${profile?.name || "Rohan Fasate"} | Full Stack MERN Developer`}
+        />
+
+        <meta
+          name="twitter:description"
+          content={
+            profile?.bio ||
+            "Building scalable web applications using React, Node.js and MongoDB."
+          }
+        />
+
+        <meta
+          name="twitter:image"
+          content="https://rohan.nishantp.me/og-image.jpg"
+        />
+
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: profile?.name || "Rohan Fasate",
+            jobTitle: profile?.title || "Full Stack MERN Developer",
+            url: "https://rohan.nishantp.me",
+            image: "https://rohan.nishantp.me/Rohanfasate.avif",
+            sameAs: [
+              profile?.github,
+              profile?.linkedin,
+            ].filter(Boolean),
+          })}
+        </script>
+      </Helmet>
+
       {/* HERO SECTION */}
       <section className="min-h-screen bg-gray-950 text-white flex items-center pt-24 sm:pt-28 pb-14 ">
-
         <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
           {/* LEFT CONTENT */}
@@ -68,7 +173,8 @@ export default function Home() {
               {/* PROFILE IMAGE */}
               <img
                 src="../Rohanfasate.avif"
-                alt="Profile"
+                alt={`${profile?.name || "Rohan Fasate"} - ${profile?.title || "MERN Stack Developer"
+                  }`}
                 className="relative w-52 h-52 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-gray-700 shadow-2xl"
               />
 
@@ -77,7 +183,6 @@ export default function Home() {
           </div>
 
         </div>
-
       </section>
     </>
   );
