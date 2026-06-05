@@ -11,21 +11,21 @@ export default function Home() {
       <Helmet>
         <title>
           {profile?.name
-            ? `${profile.name} | Full Stack MERN Developer`
-            : "Rohan Fasate | Full Stack MERN Developer"}
+            ? `${profile.name} | MERN Stack Developer Portfolio | React & Node.js Developer`
+            : "Rohan Fasate | MERN Stack Developer Portfolio | React & Node.js Developer"}
         </title>
 
         <meta
           name="description"
           content={
             profile?.bio ||
-            "Rohan Fasate is a Full Stack MERN Developer specializing in React.js, Node.js, Express.js, MongoDB and scalable web applications."
+            "Rohan Fasate is a Full Stack MERN Developer specializing in React.js, Node.js, Express.js, MongoDB, scalable web applications, REST APIs, and modern user experiences."
           }
         />
 
         <meta
           name="keywords"
-          content="Rohan Fasate,rohan, Rohan, Fasate, fasate Full Stack Developer, MERN Developer, React Developer, Node.js Developer, MongoDB Developer, Portfolio"
+          content="Rohan Fasate, Rohan, Fasate, Rohan Developer, MERN Developer, Full Stack Developer, React Developer, Node.js Developer, MongoDB Developer, JavaScript Developer, Portfolio"
         />
 
         <meta
@@ -33,27 +33,21 @@ export default function Home() {
           content={profile?.name || "Rohan Fasate"}
         />
 
-        <meta
-          name="robots"
-          content="index, follow"
-        />
+        <meta name="robots" content="index, follow" />
 
-        <link
-          rel="canonical"
-          href="https://rohan.nishantp.me"
-        />
+        <link rel="canonical" href="https://rohan.nishantp.me/" />
 
         {/* Open Graph */}
         <meta
           property="og:title"
-          content={`${profile?.name || "Rohan Fasate"} | Full Stack MERN Developer`}
+          content={`${profile?.name || "Rohan Fasate"} | MERN Stack Developer`}
         />
 
         <meta
           property="og:description"
           content={
             profile?.bio ||
-            "Building scalable web applications using React, Node.js and MongoDB."
+            "Rohan Fasate - Full Stack MERN Developer building scalable web applications using React.js, Node.js and MongoDB."
           }
         />
 
@@ -62,48 +56,41 @@ export default function Home() {
           content="https://rohan.nishantp.me/og-image.avif"
         />
 
-        <meta
-          property="og:url"
-          content="https://rohan.nishantp.me"
-        />
-
-        <meta
-          property="og:type"
-          content="website"
-        />
+        <meta property="og:url" content="https://rohan.nishantp.me/" />
+        <meta property="og:type" content="website" />
 
         {/* Twitter */}
-        <meta
-          name="twitter:card"
-          content="summary_large_image"
-        />
+        <meta name="twitter:card" content="summary_large_image" />
 
         <meta
           name="twitter:title"
-          content={`${profile?.name || "Rohan Fasate"} | Full Stack MERN Developer`}
+          content={`${profile?.name || "Rohan Fasate"} | MERN Stack Developer`}
         />
 
         <meta
           name="twitter:description"
           content={
             profile?.bio ||
-            "Building scalable web applications using React, Node.js and MongoDB."
+            "Full Stack MERN Developer specializing in React.js, Node.js, Express.js and MongoDB."
           }
         />
 
         <meta
           name="twitter:image"
-          content="https://rohan.nishantp.me/og-image.avif "
+          content="https://rohan.nishantp.me/og-image.avif"
         />
 
-        {/* Structured Data */}
+        {/* Person Schema */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
-            name: profile?.name || "Rohan Fasate",
-            jobTitle: profile?.title || "Full Stack MERN Developer",
-            url: "https://rohan.nishantp.me",
+            name: "Rohan Fasate",
+            alternateName: ["Rohan", "Fasate"],
+            jobTitle: "Full Stack MERN Developer",
+            description:
+              "Full Stack MERN Developer specializing in React.js, Node.js, Express.js and MongoDB.",
+            url: "https://rohan.nishantp.me/",
             image: "https://rohan.nishantp.me/Rohanfasate.avif",
             sameAs: [
               profile?.github,
@@ -127,7 +114,7 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight break-words">
               Hi, I'm{" "}
               <span className="text-blue-500">
-                {profile?.name || "My Portfolio"}
+                {profile?.name || "Rohan Fasate"}
               </span>{" "}
               👋
             </h1>
