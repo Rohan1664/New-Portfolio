@@ -25,7 +25,7 @@ export default function Home() {
 
         <meta
           name="keywords"
-          content="Rohan Fasate, Full Stack Developer, MERN Developer, React Developer, Node.js Developer, MongoDB Developer, Portfolio"
+          content="Rohan Fasate,rohan, Rohan, Fasate, fasate Full Stack Developer, MERN Developer, React Developer, Node.js Developer, MongoDB Developer, Portfolio"
         />
 
         <meta
