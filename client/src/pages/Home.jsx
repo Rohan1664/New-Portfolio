@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { ProfileContext } from "../context/ProfileContext";
+import GitHubActivity from "../pages/GitHubActivity";
 
 export default function Home() {
   const { profile } = useContext(ProfileContext);
@@ -170,7 +171,9 @@ export default function Home() {
           </div>
 
         </div>
+
       </section>
+      <GitHubActivity />
     </>
   );
 }
