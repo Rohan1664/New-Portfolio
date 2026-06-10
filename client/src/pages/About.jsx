@@ -198,7 +198,7 @@ export default function About() {
                   </h3>
 
                   {/* LEVEL */}
-                  <div className="flex justify-between items-center mt-3 text-sm">
+                  {/* <div className="flex justify-between items-center mt-3 text-sm">
                     <span className="text-gray-400">
                       Skill Level
                     </span>
@@ -206,17 +206,17 @@ export default function About() {
                     <span className="text-blue-400 font-medium">
                       {skill.level}%
                     </span>
-                  </div>
+                  </div> */}
 
                   {/* PROGRESS BAR */}
-                  <div className="w-full bg-gray-800 h-2 rounded-full mt-2 overflow-hidden">
+                  {/* <div className="w-full bg-gray-800 h-2 rounded-full mt-2 overflow-hidden">
                     <div
                       className="bg-blue-500 h-2 rounded-full transition-all"
                       style={{
                         width: `${skill.level}%`
                       }}
                     />
-                  </div>
+                  </div> */}
 
                 </div>
               ))}

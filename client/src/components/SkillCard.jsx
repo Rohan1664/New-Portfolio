@@ -30,7 +30,7 @@ export default function SkillCard({ skill }) {
       </div>
 
       {/* PROGRESS SECTION */}
-      <div className="mt-5">
+      {/* <div className="mt-5">
 
         <div className="flex justify-between items-center mb-2">
 
@@ -44,7 +44,7 @@ export default function SkillCard({ skill }) {
 
         </div>
 
-        {/* PROGRESS BAR */}
+        
         <div className="w-full bg-gray-800 h-2.5 rounded-full overflow-hidden">
 
           <div
@@ -54,7 +54,7 @@ export default function SkillCard({ skill }) {
 
         </div>
 
-      </div>
+      </div> */}
 
     </div>
   );

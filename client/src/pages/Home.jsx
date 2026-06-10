@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 import { ProfileContext } from "../context/ProfileContext";
 
@@ -204,17 +205,17 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* HERO SECTION */}
-        <section className="min-h-screen bg-transparent text-white flex items-center pt-24 sm:pt-28 pb-14">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <section className="min-h-[80vh] bg-transparent text-white flex items-center pt-20 lg:pt-24 pb-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
 
             {/* LEFT CONTENT */}
             <div className="text-center md:text-left order-2 md:order-1">
 
-              <p className="text-blue-400 font-medium mb-3 text-sm sm:text-base tracking-wide">
-                WELCOME TO MY PORTFOLIO
+              <p className="text-blue-400 font-semibold tracking-widest text-sm uppercase">
+                Welcome To My Portfolio
               </p>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight break-words">
+              <h1 className="mt-3 text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
                 Hi, I'm{" "}
                 <span className="text-blue-500">
                   {profile?.name || "Rohan Fasate"}
@@ -222,50 +223,102 @@ export default function Home() {
                 👋
               </h1>
 
-              <h2 className="text-lg sm:text-xl lg:text-2xl mt-5 text-gray-300 font-medium">
+              <h2 className="mt-4 text-lg sm:text-xl lg:text-2xl text-gray-300 font-medium">
                 {profile?.title || "MERN Stack Developer"}
               </h2>
 
-              <p className="mt-6 text-gray-400 leading-relaxed text-sm sm:text-base lg:text-lg max-w-2xl mx-auto md:mx-0">
+              <p className="mt-6 text-gray-400 text-base lg:text-lg leading-relaxed max-w-2xl mx-auto md:mx-0">
                 {profile?.bio ||
-                  "I build modern, scalable and high-performance web applications using React, Node.js and MongoDB."}
+                  "I build modern, scalable and high-performance web applications using React.js, Node.js, Express.js and MongoDB. Passionate about creating beautiful user experiences and solving real-world problems through code."}
               </p>
+
+              {/* TECH STACK */}
+              <div className="flex flex-wrap gap-3 mt-8 justify-center md:justify-start">
+
+                <span className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-sm">
+                  React.js
+                </span>
+
+                <span className="px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm">
+                  Node.js
+                </span>
+
+                <span className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full text-sm">
+                  JavaScript
+                </span>
+
+                <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-sm">
+                  MongoDB
+                </span>
+
+              </div>
 
               {/* BUTTONS */}
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
 
                 <Link
                   to="/projects"
-                  className="bg-blue-500 px-6 py-3.5 rounded-xl font-medium hover:bg-blue-600 transition text-center active:scale-[0.98]"
+                  className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-xl font-medium transition duration-300 text-center"
                 >
                   View Projects
                 </Link>
 
-                <Link
-                  to="/contact"
-                  className="border border-gray-700 px-6 py-3.5 rounded-xl hover:bg-gray-800 transition text-center active:scale-[0.98]"
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-gray-700 hover:bg-gray-800 px-8 py-3 rounded-xl font-medium transition duration-300 text-center"
                 >
-                  Contact Me
-                </Link>
+                  Download Resume
+                </a>
+
+              </div>
+
+              {/* SOCIAL LINKS */}
+              <div className="flex gap-4 mt-8 justify-center md:justify-start">
+
+                <a
+                  href={profile?.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 hover:-translate-y-1 transition-all duration-300"
+                >
+                  <FaGithub size={22} />
+                </a>
+
+                <a
+                  href={profile?.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 hover:-translate-y-1 transition-all duration-300"
+                >
+                  <FaLinkedin size={22} />
+                </a>
+
+                <a
+                  href={`mailto:${profile?.email}`}
+                  className="p-3 rounded-xl bg-gray-900 border border-gray-800 hover:border-blue-500 hover:-translate-y-1 transition-all duration-300"
+                >
+                  <FaEnvelope size={22} />
+                </a>
 
               </div>
 
             </div>
 
-            {/* RIGHT CONTENT */}
+            {/* RIGHT IMAGE */}
             <div className="flex justify-center order-1 md:order-2">
 
               <div className="relative">
 
-                {/* GLOW EFFECT */}
-                <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
+                {/* GLOW */}
+                <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
 
-                {/* PROFILE IMAGE */}
                 <img
                   src="../Rohanfasate.avif"
                   alt={`${profile?.name || "Rohan Fasate"} - ${profile?.title || "MERN Stack Developer"
                     }`}
-                  className="relative w-52 h-52 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-gray-700 shadow-2xl"
+                  className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full object-cover border-4 border-gray-700 shadow-2xl"
                 />
 
               </div>
@@ -273,7 +326,6 @@ export default function Home() {
             </div>
 
           </div>
-
         </section>
 
 
