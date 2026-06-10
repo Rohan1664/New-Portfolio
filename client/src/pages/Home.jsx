@@ -1,14 +1,114 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { ProfileContext } from "../context/ProfileContext";
-import GitHubActivity from "../pages/GitHubActivity";
+
+import AnimatedBackground from "../components/AnimatedBackground";
+import { ActivityCalendar } from "react-activity-calendar";
 
 export default function Home() {
   const { profile } = useContext(ProfileContext);
 
+  const username = "Rohan1664";
+
+  const [repos, setRepos] = useState(0);
+  const [thisYearContrib, setThisYearContrib] = useState(0);
+  const [totalContrib, setTotalContrib] = useState(0);
+  const [contribData, setContribData] = useState([]);
+  const [allContributions, setAllContributions] = useState([]);
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [yearOpen, setYearOpen] = useState(false);
+  const [blockSize, setBlockSize] = useState(10);
+  const [loading, setLoading] = useState(true);
+
+  // ---------------- RESPONSIVE BLOCK SIZE ----------------
+  useEffect(() => {
+    const updateSize = () => {
+      const w = window.innerWidth;
+
+      if (w < 480) setBlockSize(5);        // mobile
+      else if (w < 768) setBlockSize(7);   // tablet
+      else if (w < 1024) setBlockSize(9);  // small desktop
+      else setBlockSize(11);               // large screen
+    };
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
+  // ---------------- FETCH DATA ----------------
+  useEffect(() => {
+    const fetchGitHubData = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetch(`https://api.github.com/users/${username}`);
+        const data = await res.json();
+        setRepos(data?.public_repos ?? 0);
+
+        const contribRes = await fetch(
+          `https://github-contributions-api.jogruber.de/v4/${username}`
+        );
+
+        const contribJson = await contribRes.json();
+        const contributions = contribJson?.contributions ?? [];
+
+        setAllContributions(contributions);
+
+        const yearList = [
+          ...new Set(
+            contributions.map((item) =>
+              new Date(item.date).getUTCFullYear()
+            )
+          ),
+        ].sort((a, b) => b - a);
+
+        setYears(yearList);
+
+        const defaultYear = yearList[0] || new Date().getUTCFullYear();
+
+        setSelectedYear(defaultYear);
+        applyYearData(defaultYear, contributions);
+
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGitHubData();
+  }, []);
+
+  // ---------------- APPLY FILTER ----------------
+  const applyYearData = (year, data = allContributions) => {
+    const filtered = data.filter(
+      (item) => new Date(item.date).getUTCFullYear() === year
+    );
+
+    setContribData(filtered);
+
+    setThisYearContrib(
+      filtered.reduce((s, i) => s + (i.count || 0), 0)
+    );
+
+    setTotalContrib(
+      data.reduce((s, i) => s + (i.count || 0), 0)
+    );
+  };
+
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+    applyYearData(year, allContributions);
+    setYearOpen(false);
+  };
+
   return (
     <>
+
       <Helmet>
         <title>
           {profile?.name
@@ -100,80 +200,221 @@ export default function Home() {
           })}
         </script>
       </Helmet>
+      <AnimatedBackground />
 
-      {/* HERO SECTION */}
-      <section className="min-h-screen bg-gray-950 text-white flex items-center pt-24 sm:pt-28 pb-14 ">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10">
+        {/* HERO SECTION */}
+        <section className="min-h-screen bg-transparent text-white flex items-center pt-24 sm:pt-28 pb-14">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-          {/* LEFT CONTENT */}
-          <div className="text-center md:text-left order-2 md:order-1">
+            {/* LEFT CONTENT */}
+            <div className="text-center md:text-left order-2 md:order-1">
 
-            <p className="text-blue-400 font-medium mb-3 text-sm sm:text-base tracking-wide">
-              WELCOME TO MY PORTFOLIO
-            </p>
+              <p className="text-blue-400 font-medium mb-3 text-sm sm:text-base tracking-wide">
+                WELCOME TO MY PORTFOLIO
+              </p>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight break-words">
-              Hi, I'm{" "}
-              <span className="text-blue-500">
-                {profile?.name || "Rohan Fasate"}
-              </span>{" "}
-              👋
-            </h1>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight break-words">
+                Hi, I'm{" "}
+                <span className="text-blue-500">
+                  {profile?.name || "Rohan Fasate"}
+                </span>{" "}
+                👋
+              </h1>
 
-            <h2 className="text-lg sm:text-xl lg:text-2xl mt-5 text-gray-300 font-medium">
-              {profile?.title || "MERN Stack Developer"}
-            </h2>
+              <h2 className="text-lg sm:text-xl lg:text-2xl mt-5 text-gray-300 font-medium">
+                {profile?.title || "MERN Stack Developer"}
+              </h2>
 
-            <p className="mt-6 text-gray-400 leading-relaxed text-sm sm:text-base lg:text-lg max-w-2xl mx-auto md:mx-0">
-              {profile?.bio ||
-                "I build modern, scalable and high-performance web applications using React, Node.js and MongoDB."}
-            </p>
+              <p className="mt-6 text-gray-400 leading-relaxed text-sm sm:text-base lg:text-lg max-w-2xl mx-auto md:mx-0">
+                {profile?.bio ||
+                  "I build modern, scalable and high-performance web applications using React, Node.js and MongoDB."}
+              </p>
 
-            {/* BUTTONS */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              {/* BUTTONS */}
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
 
-              <Link
-                to="/projects"
-                className="bg-blue-500 px-6 py-3.5 rounded-xl font-medium hover:bg-blue-600 transition text-center active:scale-[0.98]"
-              >
-                View Projects
-              </Link>
+                <Link
+                  to="/projects"
+                  className="bg-blue-500 px-6 py-3.5 rounded-xl font-medium hover:bg-blue-600 transition text-center active:scale-[0.98]"
+                >
+                  View Projects
+                </Link>
 
-              <Link
-                to="/contact"
-                className="border border-gray-700 px-6 py-3.5 rounded-xl hover:bg-gray-800 transition text-center active:scale-[0.98]"
-              >
-                Contact Me
-              </Link>
+                <Link
+                  to="/contact"
+                  className="border border-gray-700 px-6 py-3.5 rounded-xl hover:bg-gray-800 transition text-center active:scale-[0.98]"
+                >
+                  Contact Me
+                </Link>
+
+              </div>
+
+            </div>
+
+            {/* RIGHT CONTENT */}
+            <div className="flex justify-center order-1 md:order-2">
+
+              <div className="relative">
+
+                {/* GLOW EFFECT */}
+                <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
+
+                {/* PROFILE IMAGE */}
+                <img
+                  src="../Rohanfasate.avif"
+                  alt={`${profile?.name || "Rohan Fasate"} - ${profile?.title || "MERN Stack Developer"
+                    }`}
+                  className="relative w-52 h-52 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-gray-700 shadow-2xl"
+                />
+
+              </div>
 
             </div>
 
           </div>
 
-          {/* RIGHT CONTENT */}
-          <div className="flex justify-center order-1 md:order-2">
+        </section>
 
-            <div className="relative">
 
-              {/* GLOW EFFECT */}
-              <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
 
-              {/* PROFILE IMAGE */}
-              <img
-                src="../Rohanfasate.avif"
-                alt={`${profile?.name || "Rohan Fasate"} - ${profile?.title || "MERN Stack Developer"
-                  }`}
-                className="relative w-52 h-52 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-gray-700 shadow-2xl"
-              />
+        {/* github activity section */}
+
+        <section className="bg-transparent text-white py-10 sm:py-16 lg:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            {/* HEADER */}
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+                GitHub <span className="text-blue-500">Activity</span>
+              </h2>
+              <p className="text-gray-400 mt-2 text-sm sm:text-base">
+                Year-wise contribution analytics
+              </p>
+            </div>
+
+            {/* STATS */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+
+              <div className="bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-800">
+                <p className="text-gray-400 text-sm">Repositories</p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-blue-400 mt-2">
+                  {repos}
+                </h3>
+              </div>
+
+              <div className="bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-800">
+                <p className="text-gray-400 text-sm">Selected Year</p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-blue-400 mt-2">
+                  {thisYearContrib}
+                </h3>
+              </div>
+
+              <div className="bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-800">
+                <p className="text-gray-400 text-sm">Total</p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-blue-400 mt-2">
+                  {totalContrib}
+                </h3>
+              </div>
 
             </div>
 
+            {/* GRAPH */}
+            <div className="mt-10 bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6">
+
+              {/* HEADER */}
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4">
+
+                <h3 className="text-sm sm:text-lg font-semibold text-center sm:text-left">
+                  Contribution Graph ({selectedYear})
+                </h3>
+
+                {/* DROPDOWN */}
+                <div className="relative">
+
+                  <button
+                    onClick={() => setYearOpen(!yearOpen)}
+                    className="px-4 py-2 bg-blue-500 rounded-lg text-sm flex items-center gap-2"
+                  >
+                    {selectedYear}
+                    <span className={`transition ${yearOpen ? "rotate-180" : ""}`}>
+                      ▼
+                    </span>
+                  </button>
+
+                  {yearOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0"
+                        onClick={() => setYearOpen(false)}
+                      />
+
+                      <div className="absolute right-0 mt-2 w-28 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50">
+
+                        {years.map((year) => (
+                          <button
+                            key={year}
+                            onClick={() => handleYearChange(year)}
+                            className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-800 ${selectedYear === year
+                              ? "text-blue-400"
+                              : "text-gray-300"
+                              }`}
+                          >
+                            {year}
+                          </button>
+                        ))}
+
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* GRAPH (FULL RESPONSIVE FIX) */}
+              {loading ? (
+                <div className="h-24 flex items-center justify-center text-gray-400">
+                  Loading...
+                </div>
+              ) : (
+                <div className="flex justify-center w-full overflow-hidden">
+
+                  <ActivityCalendar
+                    data={contribData}
+                    blockSize={blockSize}
+                    blockMargin={2}
+                    fontSize={12}
+                    colorScheme="dark"
+                    theme={{
+                      dark: [
+                        "#161b22",
+                        "#0e4429",
+                        "#006d32",
+                        "#26a641",
+                        "#39d353",
+                      ],
+                    }}
+                  />
+
+                </div>
+              )}
+            </div>
+
+            {/* CTA */}
+            <div className="flex justify-center mt-8 mb-12">
+              <a
+                href={`https://github.com/${username}`}
+                target="_blank"
+                className="px-6 py-3 bg-blue-500 rounded-xl font-medium hover:bg-blue-600 transition"
+              >
+                View GitHub Profile
+              </a>
+            </div>
+
           </div>
+        </section>
 
-        </div>
 
-      </section>
-      <GitHubActivity />
+      </div>
     </>
   );
 }
