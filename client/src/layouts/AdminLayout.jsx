@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Navbar from "../components/Navbar";
-
+import AnimatedBackground from "../components/AnimatedBackground";
 import {
   LayoutDashboard,
   Folder,
@@ -17,10 +17,9 @@ export default function AdminLayout({ children }) {
   const { logout } = useAuth();
 
   const navItem = (path) =>
-    `flex flex-col items-center justify-center gap-1 text-xs transition ${
-      location.pathname === path
-        ? "text-blue-600"
-        : "text-gray-500 hover:text-blue-500"
+    `flex flex-col items-center justify-center gap-1 text-xs transition ${location.pathname === path
+      ? "text-blue-600"
+      : "text-gray-500 hover:text-blue-500"
     }`;
 
   const handleLogout = () => {
@@ -30,9 +29,10 @@ export default function AdminLayout({ children }) {
 
   return (
     <>
+      <AnimatedBackground />
       <Navbar />
 
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen relative">
 
         {/* DESKTOP SIDEBAR */}
         <div className="hidden lg:flex">
@@ -47,55 +47,50 @@ export default function AdminLayout({ children }) {
 
               <Link
                 to="/admin/dashboard"
-                className={`px-4 py-3 rounded-lg transition ${
-                  location.pathname === "/admin/dashboard"
+                className={`px-4 py-3 rounded-lg transition ${location.pathname === "/admin/dashboard"
                     ? "bg-blue-600"
                     : "hover:bg-gray-800"
-                }`}
+                  }`}
               >
                 Dashboard
               </Link>
 
               <Link
                 to="/admin/projects"
-                className={`px-4 py-3 rounded-lg transition ${
-                  location.pathname === "/admin/projects"
+                className={`px-4 py-3 rounded-lg transition ${location.pathname === "/admin/projects"
                     ? "bg-blue-600"
                     : "hover:bg-gray-800"
-                }`}
+                  }`}
               >
                 Projects
               </Link>
 
               <Link
                 to="/admin/skills"
-                className={`px-4 py-3 rounded-lg transition ${
-                  location.pathname === "/admin/skills"
+                className={`px-4 py-3 rounded-lg transition ${location.pathname === "/admin/skills"
                     ? "bg-blue-600"
                     : "hover:bg-gray-800"
-                }`}
+                  }`}
               >
                 Skills
               </Link>
 
               <Link
                 to="/admin/profile"
-                className={`px-4 py-3 rounded-lg transition ${
-                  location.pathname === "/admin/profile"
+                className={`px-4 py-3 rounded-lg transition ${location.pathname === "/admin/profile"
                     ? "bg-blue-600"
                     : "hover:bg-gray-800"
-                }`}
+                  }`}
               >
                 Profile
               </Link>
 
               <Link
                 to="/admin/messages"
-                className={`px-4 py-3 rounded-lg transition ${
-                  location.pathname === "/admin/messages"
+                className={`px-4 py-3 rounded-lg transition ${location.pathname === "/admin/messages"
                     ? "bg-blue-600"
                     : "hover:bg-gray-800"
-                }`}
+                  }`}
               >
                 Messages
               </Link>

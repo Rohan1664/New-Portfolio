@@ -264,7 +264,7 @@ export default function Home() {
                 </Link>
 
                 <a
-                  href="/resume.pdf"
+                  href="/Rohan_Fsate_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="border border-gray-700 hover:bg-gray-800 px-8 py-3 rounded-xl font-medium transition duration-300 text-center"

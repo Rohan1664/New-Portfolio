@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { loginUser } from "../../services/authService";
 import useAuth from "../../hooks/useAuth";
 
@@ -11,16 +11,24 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ where user tried to go
-  const from = location.state?.from?.pathname || "/admin/dashboard";
+  // Already logged in
+  if (token) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
 
-  const submit = async () => {
+  const from =
+    location.state?.from?.pathname || "/admin/dashboard";
+
+  const submit = async (e) => {
+    e.preventDefault();
+
     if (!form.email || !form.password) {
-      return alert("Please fill all fields");
+      alert("Please fill all fields");
+      return;
     }
 
     try {
@@ -28,72 +36,104 @@ export default function Login() {
 
       const res = await loginUser(form);
 
+      if (!res?.data?.token) {
+        throw new Error("Token not found");
+      }
+
       login(res.data.token);
 
-      // ✅ redirect properly
       navigate(from, { replace: true });
-
     } catch (err) {
-      alert("Invalid credentials");
+      console.error(err);
+
+      alert(
+        err?.response?.data?.message ||
+        "Invalid credentials"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-6">
+    <div className="min-h-screen flex items-center justify-center px-4 py-6 relative overflow-hidden">
+
+      {/* BACKDROP */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-black" />
 
       {/* LOGIN CARD */}
-      <div className="bg-white w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg">
+      <div className="relative z-10 w-full max-w-md">
 
-        {/* TITLE */}
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center">
-          Admin Login 🔐
-        </h2>
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-6 sm:p-8">
 
-        <p className="text-sm sm:text-base text-gray-500 text-center mb-6">
-          Sign in to access your dashboard
-        </p>
+          {/* TITLE */}
+          <h2 className="text-3xl font-bold text-center text-white mb-2">
+            Admin Login 🔐
+          </h2>
 
-        {/* EMAIL */}
-        <input
-          type="email"
-          className="w-full border border-gray-300 p-3 mb-4 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              email: e.target.value,
-            })
-          }
-        />
+          <p className="text-center text-gray-300 mb-8">
+            Sign in to access your dashboard
+          </p>
 
-        {/* PASSWORD */}
-        <input
-          type="password"
-          className="w-full border border-gray-300 p-3 mb-5 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="Password"
-          value={form.password}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              password: e.target.value,
-            })
-          }
-        />
+          <form
+            onSubmit={submit}
+            className="space-y-5"
+          >
 
-        {/* BUTTON */}
-        <button
-          onClick={submit}
-          disabled={loading}
-          className="w-full bg-black text-white py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-gray-800 active:scale-[0.98] transition disabled:opacity-60"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
+            {/* EMAIL */}
+            <div>
+              <label className="block text-sm text-gray-300 mb-2">
+                Email
+              </label>
+
+              <input
+                type="email"
+                placeholder="Enter email"
+                value={form.email}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    email: e.target.value,
+                  })
+                }
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 p-3 rounded-xl outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              />
+            </div>
+
+            {/* PASSWORD */}
+            <div>
+              <label className="block text-sm text-gray-300 mb-2">
+                Password
+              </label>
+
+              <input
+                type="password"
+                placeholder="Enter password"
+                value={form.password}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    password: e.target.value,
+                  })
+                }
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-400 p-3 rounded-xl outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              />
+            </div>
+
+            {/* BUTTON */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-3 rounded-xl transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+
+          </form>
+
+        </div>
 
       </div>
-
     </div>
   );
 }

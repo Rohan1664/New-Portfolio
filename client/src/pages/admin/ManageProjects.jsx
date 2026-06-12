@@ -136,14 +136,14 @@ export default function ManageProjects() {
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
 
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <Folder size={22} />
+        <h1 className="text-2xl font-bold flex items-center gap-2 text-white">
+          <Folder size={22} className="text-cyan-400" />
           Manage Projects
         </h1>
 
         <button
           onClick={openCreateForm}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-black text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-3 rounded-lg transition"
         >
           <Plus size={16} />
           Add Project
@@ -153,12 +153,12 @@ export default function ManageProjects() {
 
       {/* FORM */}
       {showForm && (
-        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow mb-6">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-4 sm:p-6 rounded-2xl mb-6">
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="Project Title"
               value={form.title}
               onChange={(e) =>
@@ -167,86 +167,65 @@ export default function ManageProjects() {
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="Description"
               value={form.description}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  description: e.target.value
-                })
+                setForm({ ...form, description: e.target.value })
               }
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="Features (comma separated)"
               value={form.features}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  features: e.target.value
-                })
+                setForm({ ...form, features: e.target.value })
               }
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="Tech Stack"
               value={form.techStack}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  techStack: e.target.value
-                })
+                setForm({ ...form, techStack: e.target.value })
               }
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="GitHub URL"
               value={form.github}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  github: e.target.value
-                })
+                setForm({ ...form, github: e.target.value })
               }
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="Website URL"
               value={form.website}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  website: e.target.value
-                })
+                setForm({ ...form, website: e.target.value })
               }
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="LinkedIn URL"
               value={form.linkedin}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  linkedin: e.target.value
-                })
+                setForm({ ...form, linkedin: e.target.value })
               }
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:outline-none p-3 rounded-lg w-full transition"
               placeholder="Image URL"
               value={form.image}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  image: e.target.value
-                })
+                setForm({ ...form, image: e.target.value })
               }
             />
 
@@ -259,8 +238,8 @@ export default function ManageProjects() {
               onClick={handleSubmit}
               className={`w-full sm:w-auto flex items-center justify-center gap-2 text-white rounded-lg px-5 py-3 transition ${
                 editingId
-                  ? "bg-green-600 hover:bg-green-700"
-                  : "bg-black hover:bg-gray-800"
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-cyan-500 hover:bg-cyan-600"
               }`}
             >
               <Check size={16} />
@@ -273,7 +252,7 @@ export default function ManageProjects() {
                 setEditingId(null);
                 resetForm();
               }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-400 text-white rounded-lg px-5 py-3 hover:bg-gray-500 transition"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-lg px-5 py-3 transition"
             >
               <X size={16} />
               Close
@@ -286,8 +265,8 @@ export default function ManageProjects() {
 
       {/* LOADING */}
       {loading && (
-        <div className="flex items-center gap-2 text-gray-500 mb-4">
-          <Loader2 className="animate-spin" size={16} />
+        <div className="flex items-center gap-2 text-gray-300 mb-4">
+          <Loader2 className="animate-spin text-cyan-400" size={16} />
           Loading...
         </div>
       )}
@@ -298,7 +277,7 @@ export default function ManageProjects() {
         {projects.map((p) => (
           <div
             key={p._id}
-            className="bg-white p-4 rounded-2xl shadow hover:shadow-lg transition"
+            className="bg-white/10 backdrop-blur-md border border-white/20 hover:border-cyan-400/40 shadow-xl p-4 rounded-2xl transition flex flex-col"
           >
 
             {/* IMAGE */}
@@ -311,12 +290,12 @@ export default function ManageProjects() {
             )}
 
             {/* TITLE */}
-            <h2 className="font-bold text-lg break-words">
+            <h2 className="font-bold text-lg break-words text-white">
               {p.title}
             </h2>
 
             {/* DESCRIPTION */}
-            <p className="text-sm text-gray-600 mt-2 break-words">
+            <p className="text-sm text-gray-300 mt-2 break-words">
               {p.description}
             </p>
 
@@ -326,7 +305,7 @@ export default function ManageProjects() {
                 {p.techStack.map((t, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-gray-200 px-2 py-1 rounded-full"
+                    className="text-xs bg-cyan-500/20 border border-cyan-400/30 text-cyan-300 px-2 py-1 rounded-full"
                   >
                     {t}
                   </span>
@@ -336,7 +315,7 @@ export default function ManageProjects() {
 
             {/* FEATURES */}
             {p.features?.length > 0 && (
-              <ul className="text-xs text-gray-600 mt-3 list-disc pl-5 space-y-1">
+              <ul className="text-xs text-gray-300 mt-3 list-disc pl-5 space-y-1">
                 {p.features.map((f, i) => (
                   <li key={i} className="break-words">
                     {f}
@@ -353,7 +332,7 @@ export default function ManageProjects() {
                   href={p.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1 text-blue-500 hover:underline"
+                  className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition"
                 >
                   <FaGithub size={15} />
                   GitHub
@@ -365,7 +344,7 @@ export default function ManageProjects() {
                   href={p.website}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1 text-green-500 hover:underline"
+                  className="flex items-center gap-1 text-green-400 hover:text-green-300 transition"
                 >
                   <ExternalLink size={15} />
                   Live
@@ -377,7 +356,7 @@ export default function ManageProjects() {
                   href={p.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1 text-indigo-500 hover:underline"
+                  className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition"
                 >
                   <FaLinkedin size={15} />
                   LinkedIn
@@ -391,15 +370,15 @@ export default function ManageProjects() {
 
               <button
                 onClick={() => handleEdit(p)}
-                className="flex items-center justify-center gap-2 text-blue-500 border border-blue-200 rounded-lg px-4 py-2 hover:bg-blue-50 transition"
+                className="flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-lg px-4 py-2 transition"
               >
-                <Pencil size={15} />
+                <Pencil size={15} className="text-cyan-400" />
                 Edit
               </button>
 
               <button
                 onClick={() => handleDelete(p._id)}
-                className="flex items-center justify-center gap-2 text-red-500 border border-red-200 rounded-lg px-4 py-2 hover:bg-red-50 transition"
+                className="flex items-center justify-center gap-2 border border-red-400/30 text-red-400 hover:bg-red-500/10 rounded-lg px-4 py-2 transition"
               >
                 <Trash2 size={15} />
                 Delete

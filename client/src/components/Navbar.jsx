@@ -61,7 +61,7 @@ export default function Navbar() {
   return (
     <>
       {/* ================= DESKTOP NAVBAR ================= */}
-      <nav className="hidden md:block bg-gray-900/95 backdrop-blur-md shadow-md sticky top-0 z-50 border-b border-gray-800">
+      <nav className="hidden md:block bg-transparent backdrop-blur-md shadow-md sticky top-0 z-50 ">
 
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 

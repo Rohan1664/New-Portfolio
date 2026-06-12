@@ -6,7 +6,6 @@ import {
   deleteSkill
 } from "../../services/skillService";
 
-// ✅ Icons
 import {
   Plus,
   Pencil,
@@ -42,7 +41,6 @@ export default function ManageSkills() {
     load();
   }, []);
 
-  // OPEN FORM
   const openForm = () => {
     setEditingId(null);
 
@@ -101,19 +99,19 @@ export default function ManageSkills() {
   };
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="relative z-10 p-4 sm:p-6">
 
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
 
-        <h1 className="text-2xl font-bold flex items-center gap-2">
+        <h1 className="text-2xl font-bold flex items-center gap-2 text-white">
           <Wrench size={22} />
           Skills
         </h1>
 
         <button
           onClick={openForm}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-cyan-500 text-white px-4 py-3 rounded-lg hover:bg-cyan-600 transition"
         >
           <Plus size={16} />
           Add Skill
@@ -123,12 +121,12 @@ export default function ManageSkills() {
 
       {/* FORM */}
       {showForm && (
-        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow mb-6">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-4 sm:p-6 rounded-2xl shadow-xl mb-6">
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg outline-none focus:border-cyan-400"
               placeholder="Skill Name"
               value={form.name}
               onChange={(e) =>
@@ -140,7 +138,7 @@ export default function ManageSkills() {
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg outline-none focus:border-cyan-400"
               placeholder="Description"
               value={form.description}
               onChange={(e) =>
@@ -152,7 +150,7 @@ export default function ManageSkills() {
             />
 
             <input
-              className="border p-3 rounded-lg w-full"
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-gray-300 p-3 rounded-lg outline-none focus:border-cyan-400"
               placeholder="Level (0-100)"
               type="number"
               value={form.level}
@@ -171,7 +169,11 @@ export default function ManageSkills() {
 
             <button
               onClick={handleSubmit}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-black text-white rounded-lg px-5 py-3 hover:bg-gray-800 transition"
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 text-white rounded-lg px-5 py-3 transition ${
+                editingId
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-cyan-500 hover:bg-cyan-600"
+              }`}
             >
               <Check size={16} />
               {editingId ? "Update" : "Add"}
@@ -188,7 +190,7 @@ export default function ManageSkills() {
                   level: ""
                 });
               }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-400 text-white rounded-lg px-5 py-3 hover:bg-gray-500 transition"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white rounded-lg px-5 py-3 hover:bg-white/20 transition"
             >
               <X size={16} />
               Cancel
@@ -201,7 +203,7 @@ export default function ManageSkills() {
 
       {/* LOADING */}
       {loading && (
-        <div className="flex items-center gap-2 text-gray-500 mb-4">
+        <div className="flex items-center gap-2 text-gray-300 mb-4">
           <Loader2 className="animate-spin" size={16} />
           Loading...
         </div>
@@ -213,34 +215,34 @@ export default function ManageSkills() {
         {skills.map((s) => (
           <div
             key={s._id}
-            className="bg-white p-4 sm:p-5 rounded-2xl shadow hover:shadow-lg transition"
+            className="bg-white/10 backdrop-blur-md border border-white/20 p-4 sm:p-5 rounded-2xl shadow-xl hover:border-cyan-400/40 transition"
           >
 
             {/* NAME */}
-            <h2 className="font-bold text-lg break-words">
+            <h2 className="font-bold text-lg text-white break-words">
               {s.name}
             </h2>
 
             {/* DESCRIPTION */}
-            <p className="text-sm text-gray-500 mt-2 break-words">
+            <p className="text-sm text-gray-200 mt-2 break-words">
               {s.description}
             </p>
 
             {/* PROGRESS BAR */}
-            <div className="w-full bg-gray-200 h-2 rounded-full mt-4 overflow-hidden">
+            <div className="w-full bg-white/10 h-2 rounded-full mt-4 overflow-hidden">
               <div
-                className="bg-blue-500 h-2 rounded-full transition-all"
+                className="bg-cyan-500 h-2 rounded-full transition-all"
                 style={{ width: `${s.level}%` }}
               />
             </div>
 
             {/* LEVEL */}
             <div className="flex justify-between items-center mt-2">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-300">
                 Skill Level
               </p>
 
-              <p className="text-xs font-semibold text-blue-600">
+              <p className="text-xs font-semibold text-cyan-400">
                 {s.level}%
               </p>
             </div>
@@ -250,7 +252,7 @@ export default function ManageSkills() {
 
               <button
                 onClick={() => handleEdit(s)}
-                className="flex items-center justify-center gap-2 text-blue-500 border border-blue-200 rounded-lg px-4 py-2 hover:bg-blue-50 transition"
+                className="flex items-center justify-center gap-2 text-cyan-400 border border-cyan-400/30 rounded-lg px-4 py-2 hover:bg-cyan-500/10 transition"
               >
                 <Pencil size={14} />
                 Edit
@@ -258,7 +260,7 @@ export default function ManageSkills() {
 
               <button
                 onClick={() => handleDelete(s._id)}
-                className="flex items-center justify-center gap-2 text-red-500 border border-red-200 rounded-lg px-4 py-2 hover:bg-red-50 transition"
+                className="flex items-center justify-center gap-2 text-red-400 border border-red-400/30 rounded-lg px-4 py-2 hover:bg-red-500/10 transition"
               >
                 <Trash2 size={14} />
                 Delete

@@ -19,7 +19,7 @@ export default function Footer() {
   const { profile } = useContext(ProfileContext);
 
   return (
-    <footer className="bg-gray-900 text-gray-300 border-t border-gray-800">
+    <footer className="bg-transparent text-gray-300 ">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
 
