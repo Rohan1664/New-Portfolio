@@ -100,7 +100,8 @@ export default function About() {
                 </h3>
 
                 <p className="text-gray-400 leading-relaxed text-sm sm:text-base break-words whitespace-pre-line">
-                  {profile.about || profile.bio}
+                  {profile.bio}
+                  {profile.about}
                 </p>
               </div>
 
