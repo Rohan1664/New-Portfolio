@@ -231,28 +231,7 @@ export default function Home() {
                 {profile?.bio ||
                   "I build modern, scalable and high-performance web applications using React.js, Node.js, Express.js and MongoDB. Passionate about creating beautiful user experiences and solving real-world problems through code."}
               </p>
-
-              {/* TECH STACK */}
-              <div className="flex flex-wrap gap-3 mt-8 justify-center md:justify-start">
-
-                <span className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-sm">
-                  React.js
-                </span>
-
-                <span className="px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm">
-                  Node.js
-                </span>
-
-                <span className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full text-sm">
-                  JavaScript
-                </span>
-
-                <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-sm">
-                  MongoDB
-                </span>
-
-              </div>
-
+              
               {/* BUTTONS */}
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
 
