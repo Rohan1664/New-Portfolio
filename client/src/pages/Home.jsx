@@ -228,7 +228,7 @@ export default function Home() {
               </h2>
 
               <p className="mt-6 text-gray-400 text-base lg:text-lg leading-relaxed max-w-2xl mx-auto md:mx-0">
-                {profile?.bio ||
+                {profile?.about||
                   "I build modern, scalable and high-performance web applications using React.js, Node.js, Express.js and MongoDB. Passionate about creating beautiful user experiences and solving real-world problems through code."}
               </p>
               
